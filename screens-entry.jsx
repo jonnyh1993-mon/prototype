@@ -2,16 +2,21 @@
 
 // ------------ HOME SCREEN ------------
 const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMode = false }) => {
-  // Phases: "greeting" (first 1.2s) -> "networth" (fade swap) -> account rows stagger in
-  const [phase, setPhase] = React.useState(staticMode ? "networth" : "greeting");
-  const [revealed, setRevealed] = React.useState(staticMode);
+  // Phases: "greeting" (first 1.2s) -> "networth" (fade swap) -> account rows stagger in.
+  // Only play the intro once per session so coming back from the flow doesn't re-animate (feels flashy).
+  const alreadySeen = (() => { try { return sessionStorage.getItem("inv_home_seen") === "1"; } catch { return false; } })();
+  const [phase, setPhase] = React.useState(staticMode || alreadySeen ? "networth" : "greeting");
+  const [revealed, setRevealed] = React.useState(staticMode || alreadySeen);
 
   React.useEffect(() => {
-    if (staticMode) return;
+    if (staticMode || alreadySeen) return;
     const t1 = setTimeout(() => setPhase("networth"), 1400);
-    const t2 = setTimeout(() => setRevealed(true), 1700);
+    const t2 = setTimeout(() => {
+      setRevealed(true);
+      try { sessionStorage.setItem("inv_home_seen", "1"); } catch {}
+    }, 1700);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [staticMode]);
+  }, [staticMode, alreadySeen]);
 
   // Aggregate holdings into an ISA line
   const isaTotal = holdings
@@ -37,12 +42,12 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
           </div>
         </div>
 
-        <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "0ms"}}>Accounts</div>
+        <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "0ms"}}>Savings accounts</div>
         <div className="list-group">
           <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "60ms"}}>
             <span className="listrow-body">
-              <span className="listrow-title" style={{fontSize: 16}}>Easy Access savings</span>
-              <span className="listrow-sub">4.50% AER</span>
+              <span className="listrow-title" style={{fontSize: 16}}>Easy Access Savings</span>
+              <span className="listrow-sub">3.52% AER</span>
             </span>
             <span className="listrow-value"><span className="listrow-val">£82,140.00</span></span>
             <ChevR/>
@@ -50,7 +55,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
           <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "120ms"}}>
             <span className="listrow-body">
               <span className="listrow-title" style={{fontSize: 16}}>Easy Access Cash ISA</span>
-              <span className="listrow-sub">4.75% AER ·</span>
+              <span className="listrow-sub">3.74% AER</span>
             </span>
             <span className="listrow-value"><span className="listrow-val">£20,000.00</span></span>
             <ChevR/>
@@ -85,8 +90,8 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
         <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "260ms"}}>Do more with Monument</div>
         <div className="list-group">
           <button className={"listrow highlight home-reveal" + (revealed ? " in" : "")} style={{"--d": "320ms", background: "var(--color-secondary-200)"}} onClick={onOpenInvestments}>
-            <span className="listrow-icon" style={{ background: "#003036" }}>
-              <img src={icon("portfolio-performance")} alt="" style={{ filter: "brightness(0) invert(1)", opacity: 0.85, width: 26, height: 26 }}/>
+            <span className="listrow-icon" style={{ background: "transparent", borderRadius: 0, overflow: "visible" }}>
+              <img src="assets/icons/home-investments.png" alt="" style={{ width: 44, height: 44, objectFit: "contain" }}/>
             </span>
             <span className="listrow-body">
               <span className="listrow-title" style={{fontSize: 16}}>Investments</span>
@@ -95,7 +100,9 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
             <ChevR/>
           </button>
           <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "380ms"}}>
-            <span className="listrow-icon"><img src={icon("house")} alt="" /></span>
+            <span className="listrow-icon" style={{ background: "transparent", borderRadius: 0, overflow: "visible" }}>
+              <img src="assets/icons/home-lending.png" alt="" style={{ width: 44, height: 44, objectFit: "contain" }}/>
+            </span>
             <span className="listrow-body">
               <span className="listrow-title" style={{fontSize: 16}}>Borrow against your assets</span>
               <span className="listrow-sub">Rates start at 5.5%</span>
@@ -119,7 +126,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 8h14l-1 12H6L5 8zM9 8V5a3 3 0 016 0v3" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
           <span className="tab-label">Lifestyle</span>
         </button>
-        <button className="tab">
+        <button className="tab" onClick={() => window.dispatchEvent(new CustomEvent("proto:reset"))}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" strokeWidth="1.8"/><path d="M4 20c1-4 5-6 8-6s7 2 8 6" strokeWidth="1.8" strokeLinecap="round"/></svg>
           <span className="tab-label">Profile</span>
         </button>

@@ -888,6 +888,25 @@ const AmountInvestScreen = ({ onBack, onContinue, fundName, defaultAmount = 5000
   );
 };
 
+// ---- Confetti-tick Lottie (used on the confirmation screen) ----
+const ConfettiTickLottie = ({ size = 220 }) => {
+  const holderRef = React.useRef(null);
+  React.useEffect(() => {
+    if (!holderRef.current || typeof window.lottie === "undefined") return;
+    const anim = window.lottie.loadAnimation({
+      container: holderRef.current,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: "assets/lottie/confetti-tick.json",
+      rendererSettings: { preserveAspectRatio: "xMidYMid meet" },
+    });
+    return () => { try { anim.destroy(); } catch {} };
+  }, []);
+  // Aspect ratio of the source lottie (200 × 140).
+  return <div ref={holderRef} style={{ width: size, height: size * (140 / 200) }} aria-hidden="true"/>;
+};
+
 // ---- Confirmation (light screen, matches flow vocabulary) ----
 const ConfirmScreen = ({ onBack, onHome, fundName, amount, frequency = "one-off" }) => {
   // Stable reference per render of this confirmation
@@ -901,17 +920,15 @@ const ConfirmScreen = ({ onBack, onHome, fundName, amount, frequency = "one-off"
           <div style={{ width: "100%" }}>
             <div
               style={{
-                margin: "0 auto 20px",
+                margin: "0 auto 12px",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}
               aria-hidden="true"
             >
-              <svg width="56" height="56" viewBox="0 0 24 24">
-                <path d="M4 12l5 5L20 7" stroke="var(--color-primary-700, #003036)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <ConfettiTickLottie size={220}/>
             </div>
 
-            <h2 className="q-title" style={{ textAlign: "center" }}>Your order has been placed</h2>
+            <h2 className="q-title" style={{ textAlign: "center", margin: "24px 0", fontSize: 42, lineHeight: 1.2 }}>Your order has been placed</h2>
             <p className="q-sub" style={{ marginBottom: 24, textAlign: "center" }}>
               {frequency === "monthly"
                 ? <>We're setting up your monthly investment of <b style={{ color: "var(--fg-1)" }}>{fmtGBP(amount)}</b> into <b style={{ color: "var(--fg-1)" }}>{fundName}</b>. The first contribution typically settles within two business days.</>

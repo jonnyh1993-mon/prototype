@@ -65,7 +65,15 @@ function App() {
     setAnswers(INITIAL_ANSWERS);
     setHoldings([]);
     localStorage.removeItem("inv_proto_v1");
+    try { sessionStorage.removeItem("inv_home_seen"); } catch {}
   };
+
+  // Expose reset to children (Profile tab on Home) via a window event
+  React.useEffect(() => {
+    const h = () => resetProto();
+    window.addEventListener("proto:reset", h);
+    return () => window.removeEventListener("proto:reset", h);
+  }, []);
 
   const setAnswer = (k, v) => setAnswers(a => ({ ...a, [k]: v }));
 

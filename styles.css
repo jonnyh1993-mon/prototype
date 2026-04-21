@@ -104,54 +104,60 @@ html, body {
 .nav-layer {
   position: absolute; inset: 0;
   display: flex; flex-direction: column;
-  background: var(--canvas-primary);
-  will-change: transform;
-  contain: layout paint;
+  /* Match the most-common screen background so the gap between layers
+     during transition is invisible (no grey flash). */
+  background: var(--color-secondary-100, #FDFAF5);
+  will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 .nav-layer > .screen { flex: 1; min-height: 0; }
-/* Only one layer, no animation: sit still and fill the stack */
-.nav-stack > .nav-layer:only-child { position: relative; inset: auto; flex: 1; min-height: 0; }
+/* Always absolute — never switch position mode depending on sibling count,
+   because that reflow IS the flicker users see behind a pushing screen. */
 
-/* ---- Forward (push): incoming slides in from right, outgoing nudges left ---- */
+/* Tuned premium transition — subtle parallax, gentle fade, no harsh shadow.
+   Curve is a soft "material-like" ease-out; slightly longer duration for weight. */
+
+/* ---- Forward (push) ---- */
 .nav-stack[data-dir="forward"] .nav-entering {
-  animation: navPushInRight .36s cubic-bezier(.33,1,.68,1) both;
+  animation: navPushInRight .52s cubic-bezier(.22,.61,.36,1) both;
   z-index: 2;
-  box-shadow: -10px 0 22px rgba(0,0,0,.12);
 }
 .nav-stack[data-dir="forward"] .nav-leaving {
-  animation: navPushOutLeft .36s cubic-bezier(.33,1,.68,1) both;
+  animation: navPushOutLeft .52s cubic-bezier(.22,.61,.36,1) both;
   z-index: 1;
 }
 
-/* ---- Back (pop): incoming slides from left, outgoing slides to right ---- */
+/* ---- Back (pop) ---- */
 .nav-stack[data-dir="back"] .nav-entering {
-  animation: navPopInLeft .36s cubic-bezier(.33,1,.68,1) both;
+  animation: navPopInLeft .52s cubic-bezier(.22,.61,.36,1) both;
   z-index: 1;
 }
 .nav-stack[data-dir="back"] .nav-leaving {
-  animation: navPopOutRight .36s cubic-bezier(.33,1,.68,1) both;
+  animation: navPopOutRight .52s cubic-bezier(.22,.61,.36,1) both;
   z-index: 2;
-  box-shadow: -10px 0 22px rgba(0,0,0,.12);
 }
 
 @keyframes navPushInRight {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+  from { transform: translate3d(100%, 0, 0); opacity: .85; }
+  to   { transform: translate3d(0, 0, 0); opacity: 1; }
 }
 @keyframes navPushOutLeft {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-28%); }
+  from { transform: translate3d(0, 0, 0); opacity: 1; }
+  to   { transform: translate3d(-22%, 0, 0); opacity: .6; }
 }
 @keyframes navPopInLeft {
-  from { transform: translateX(-28%); }
-  to   { transform: translateX(0); }
+  from { transform: translate3d(-22%, 0, 0); opacity: .6; }
+  to   { transform: translate3d(0, 0, 0); opacity: 1; }
 }
 @keyframes navPopOutRight {
-  from { transform: translateX(0); }
-  to   { transform: translateX(100%); }
+  from { transform: translate3d(0, 0, 0); opacity: 1; }
+  to   { transform: translate3d(100%, 0, 0); opacity: .85; }
 }
+/* Prevent hover/active background flicker on the outgoing layer during a nav transition. */
+.nav-stack[data-dir] .nav-leaving { pointer-events: none; }
+.nav-stack[data-dir] .nav-leaving *:hover { background: inherit !important; }
+
 .screen.dark { background: var(--surface-hero); color: #fff; }
 .screen.sheet-canvas { background: var(--surface-sheet); }
 
@@ -501,7 +507,7 @@ html, body {
 /* Section title in content */
 .q-title {
   font: 500 30px/34px var(--font-display); letter-spacing: -1px;
-  color: var(--fg-1); margin: 12px 0 8px; text-wrap: balance;
+  color: var(--fg-1); margin: 12px 0 8px; text-wrap: pretty;
 }
 .q-title.on-dark { color: #fff; }
 .q-sub { font: 400 16px/22px var(--font-body); color: var(--fg-2); margin-bottom: 28px; }
