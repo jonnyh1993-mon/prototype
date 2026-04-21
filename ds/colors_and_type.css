@@ -1,5 +1,5 @@
 /*
- * Heights Design System — Core Tokens
+ * Heights Design System - Core Tokens
  * Typography + Colors for Monument Bank's Heights DS v2
  *
  * Import this file and use the CSS variables directly, or write element styles against
@@ -8,390 +8,390 @@
  */
 
 /* ============================================================ */
-/* FONTS                                                        */
+/* FONTS */
 /* ============================================================ */
 
 @font-face {
-  font-family: 'Vesterbro';
-  src: url('fonts/Vesterbro-Light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
+ font-family: 'Vesterbro';
+ src: url('fonts/Vesterbro-Light.otf') format('opentype');
+ font-weight: 300;
+ font-style: normal;
+ font-display: swap;
 }
 @font-face {
-  font-family: 'Vesterbro';
-  src: url('fonts/Vesterbro-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+ font-family: 'Vesterbro';
+ src: url('fonts/Vesterbro-Regular.otf') format('opentype');
+ font-weight: 400;
+ font-style: normal;
+ font-display: swap;
 }
 @font-face {
-  font-family: 'Vesterbro';
-  src: url('fonts/Vesterbro-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+ font-family: 'Vesterbro';
+ src: url('fonts/Vesterbro-Medium.otf') format('opentype');
+ font-weight: 500;
+ font-style: normal;
+ font-display: swap;
 }
 @font-face {
-  font-family: 'Eina 02';
-  src: url('fonts/Eina02-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+ font-family: 'Eina 02';
+ src: url('fonts/Eina02-Regular.otf') format('opentype');
+ font-weight: 400;
+ font-style: normal;
+ font-display: swap;
 }
 @font-face {
-  font-family: 'Eina 02';
-  src: url('fonts/Eina02-SemiBold.otf') format('opentype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
+ font-family: 'Eina 02';
+ src: url('fonts/Eina02-SemiBold.otf') format('opentype');
+ font-weight: 600;
+ font-style: normal;
+ font-display: swap;
 }
 
 :root {
-  /* ========================================================== */
-  /* FONT FAMILIES                                              */
-  /* ========================================================== */
-  --font-display: 'Vesterbro', Georgia, 'Times New Roman', serif;
-  --font-body: 'Eina 02', system-ui, -apple-system, sans-serif;
+ /* ========================================================== */
+ /* FONT FAMILIES */
+ /* ========================================================== */
+ --font-display: 'Vesterbro', Georgia, 'Times New Roman', serif;
+ --font-body: 'Eina 02', system-ui, -apple-system, sans-serif;
 
-  /* ========================================================== */
-  /* COLOR SCALES                                               */
-  /* ========================================================== */
+ /* ========================================================== */
+ /* COLOR SCALES */
+ /* ========================================================== */
 
-  /* Primary — deep teal (the Monument brand colour) */
-  --color-primary-25:  #F5F6F4;
-  --color-primary-50:  #E6EEEF;
-  --color-primary-100: #CCDCDE;
-  --color-primary-200: #99B9BD;
-  --color-primary-300: #66969C;
-  --color-primary-400: #33737B;
-  --color-primary-500: #00505A;
-  --color-primary-600: #003036;   /* brand primary */
-  --color-primary-700: #003036;
-  --color-primary-800: #002024;
-  --color-primary-900: #001012;
+ /* Primary - deep teal (the Monument brand colour) */
+ --color-primary-25: #F5F6F4;
+ --color-primary-50: #E6EEEF;
+ --color-primary-100: #CCDCDE;
+ --color-primary-200: #99B9BD;
+ --color-primary-300: #66969C;
+ --color-primary-400: #33737B;
+ --color-primary-500: #00505A;
+ --color-primary-600: #003036; /* brand primary */
+ --color-primary-700: #003036;
+ --color-primary-800: #002024;
+ --color-primary-900: #001012;
 
-  /* Secondary — warm paper / stone */
-  --color-secondary-50:  #FEFDFB;
-  --color-secondary-100: #FDFAF5;
-  --color-secondary-200: #F5F1E8;   /* sheet background */
-  --color-secondary-300: #EDE8DA;
-  --color-secondary-400: #D8D1C0;
-  --color-secondary-500: #B9B29E;
-  --color-secondary-600: #9C9582;
-  --color-secondary-700: #817965;
-  --color-secondary-800: #696050;
-  --color-secondary-900: #514A3C;
-  --color-secondary-950: #3A3328;
-  --color-secondary-975: #A36300;   /* accent gold (concierge tint) */
+ /* Secondary - warm paper / stone */
+ --color-secondary-50: #FEFDFB;
+ --color-secondary-100: #FDFAF5;
+ --color-secondary-200: #F5F1E8; /* sheet background */
+ --color-secondary-300: #EDE8DA;
+ --color-secondary-400: #D8D1C0;
+ --color-secondary-500: #B9B29E;
+ --color-secondary-600: #9C9582;
+ --color-secondary-700: #817965;
+ --color-secondary-800: #696050;
+ --color-secondary-900: #514A3C;
+ --color-secondary-950: #3A3328;
+ --color-secondary-975: #A36300; /* accent gold (concierge tint) */
 
-  /* Neutral — true greys */
-  --color-neutral-25:  #F2F2F2;
-  --color-neutral-50:  #E9E9E9;
-  --color-neutral-100: #D3D3D3;
-  --color-neutral-200: #A7A7A7;
-  --color-neutral-300: #7B7B7B;
-  --color-neutral-400: #4F4F4F;
-  --color-neutral-500: #232323;
-  --color-neutral-600: #1A1A1A;
-  --color-neutral-700: #121212;
-  --color-neutral-800: #0A0A0A;
-  --color-neutral-900: #000000;
+ /* Neutral - true greys */
+ --color-neutral-25: #F2F2F2;
+ --color-neutral-50: #E9E9E9;
+ --color-neutral-100: #D3D3D3;
+ --color-neutral-200: #A7A7A7;
+ --color-neutral-300: #7B7B7B;
+ --color-neutral-400: #4F4F4F;
+ --color-neutral-500: #232323;
+ --color-neutral-600: #1A1A1A;
+ --color-neutral-700: #121212;
+ --color-neutral-800: #0A0A0A;
+ --color-neutral-900: #000000;
 
-  /* Neutral Warm — soft off-whites for skeletons/placeholders */
-  --color-neutral-warm-50:  #FCFCFC;
-  --color-neutral-warm-100: #FAFAF9;
-  --color-neutral-warm-200: #F6F5F4;
-  --color-neutral-warm-300: #EEECEA;
-  --color-neutral-warm-400: #C8C4BE;
-  --color-neutral-warm-500: #A6A099;
+ /* Neutral Warm - soft off-whites for skeletons/placeholders */
+ --color-neutral-warm-50: #FCFCFC;
+ --color-neutral-warm-100: #FAFAF9;
+ --color-neutral-warm-200: #F6F5F4;
+ --color-neutral-warm-300: #EEECEA;
+ --color-neutral-warm-400: #C8C4BE;
+ --color-neutral-warm-500: #A6A099;
 
-  /* Error (red) */
-  --color-error-50:  #FEF3F2;
-  --color-error-100: #FEE4E2;
-  --color-error-300: #FDA29B;
-  --color-error-500: #F04438;
-  --color-error-600: #D92D20;
-  --color-error-700: #B42318;
+ /* Error (red) */
+ --color-error-50: #FEF3F2;
+ --color-error-100: #FEE4E2;
+ --color-error-300: #FDA29B;
+ --color-error-500: #F04438;
+ --color-error-600: #D92D20;
+ --color-error-700: #B42318;
 
-  /* Warning (warm terracotta, not orange) */
-  --color-warning-50:  #F8F1F0;
-  --color-warning-300: #CB978E;
-  --color-warning-500: #AF5D4F;
-  --color-warning-700: #69382F;
+ /* Warning (warm terracotta, not orange) */
+ --color-warning-50: #F8F1F0;
+ --color-warning-300: #CB978E;
+ --color-warning-500: #AF5D4F;
+ --color-warning-700: #69382F;
 
-  /* Success (teal-green, not lime) */
-  --color-success-50:  #F0FDF9;
-  --color-success-200: #99F6E0;
-  --color-success-500: #15B79E;
-  --color-success-600: #0E9384;
-  --color-success-700: #107569;
+ /* Success (teal-green, not lime) */
+ --color-success-50: #F0FDF9;
+ --color-success-200: #99F6E0;
+ --color-success-500: #15B79E;
+ --color-success-600: #0E9384;
+ --color-success-700: #107569;
 
-  /* Info (blue) */
-  --color-info-50:  #F0F9FF;
-  --color-info-500: #0BA5EC;
-  --color-info-700: #026AA2;
+ /* Info (blue) */
+ --color-info-50: #F0F9FF;
+ --color-info-500: #0BA5EC;
+ --color-info-700: #026AA2;
 
-  /* Specials */
-  --color-concierge:         #7A5213;
-  --color-concierge-active:  #694711;
-  --color-dark:              #18100D;
-  --color-dark-active:       #2C2420;
-  --color-performance-up:    #81FFB6;   /* only on dark hero backgrounds */
-  --color-performance-down:  #FF8181;
+ /* Specials */
+ --color-concierge: #7A5213;
+ --color-concierge-active: #694711;
+ --color-dark: #18100D;
+ --color-dark-active: #2C2420;
+ --color-performance-up: #81FFB6; /* only on dark hero backgrounds */
+ --color-performance-down: #FF8181;
 
-  /* Alpha whites / blacks */
-  --color-white-primary:    rgba(255,255,255,1);
-  --color-white-secondary:  rgba(255,255,255,0.75);
-  --color-white-tertiary:   rgba(255,255,255,0.4);
-  --color-white-quaternary: rgba(255,255,255,0.1);
-  --color-white-clear:      rgba(255,255,255,0.5);
-  --color-black-primary:    rgba(0,0,0,1);
-  --color-black-overlay:    rgba(0,0,0,0.05);
-  --color-black-quaternary: rgba(0,0,0,0.1);
-  --color-black-quinary:    rgba(0,0,0,0.25);
-  --color-black-clear:      rgba(0,0,0,0.5);
+ /* Alpha whites / blacks */
+ --color-white-primary: rgba(255,255,255,1);
+ --color-white-secondary: rgba(255,255,255,0.75);
+ --color-white-tertiary: rgba(255,255,255,0.4);
+ --color-white-quaternary: rgba(255,255,255,0.1);
+ --color-white-clear: rgba(255,255,255,0.5);
+ --color-black-primary: rgba(0,0,0,1);
+ --color-black-overlay: rgba(0,0,0,0.05);
+ --color-black-quaternary: rgba(0,0,0,0.1);
+ --color-black-quinary: rgba(0,0,0,0.25);
+ --color-black-clear: rgba(0,0,0,0.5);
 
-  /* ========================================================== */
-  /* SEMANTIC COLORS                                            */
-  /* ========================================================== */
+ /* ========================================================== */
+ /* SEMANTIC COLORS */
+ /* ========================================================== */
 
-  /* Text / foreground */
-  --fg-1: #232323;                         /* text-primary */
-  --fg-2: #4F4F4F;                         /* text-secondary */
-  --fg-3: #7B7B7B;                         /* text-tertiary */
-  --fg-gold: #A36300;                      /* text-quartenary (concierge accent) */
-  --fg-placeholder: #A7A7A7;
-  --fg-link: #00505A;
-  --fg-error: #D92D20;
-  --fg-on-dark-1: rgba(255,255,255,1);
-  --fg-on-dark-2: rgba(255,255,255,0.75);
-  --fg-on-dark-3: rgba(255,255,255,0.4);
+ /* Text / foreground */
+ --fg-1: #232323; /* text-primary */
+ --fg-2: #4F4F4F; /* text-secondary */
+ --fg-3: #7B7B7B; /* text-tertiary */
+ --fg-gold: #A36300; /* text-quartenary (concierge accent) */
+ --fg-placeholder: #A7A7A7;
+ --fg-link: #00505A;
+ --fg-error: #D92D20;
+ --fg-on-dark-1: rgba(255,255,255,1);
+ --fg-on-dark-2: rgba(255,255,255,0.75);
+ --fg-on-dark-3: rgba(255,255,255,0.4);
 
-  /* Surfaces */
-  --surface-primary:   #FFFFFF;            /* white cards */
-  --surface-secondary: #F5F6F4;            /* tinted primary-25 */
-  --surface-hero:      #003036;            /* dark teal hero */
-  --surface-sheet:     #F5F1E8;            /* warm paper sheet */
-  --surface-card-alt:  #EDE8DA;            /* tinted card alt */
-  --canvas-primary:    #F5F6F4;            /* default app background */
-  --canvas-lifestyle:  #F5F1E8;            /* Monument Lifestyle background */
+ /* Surfaces */
+ --surface-primary: #FFFFFF; /* white cards */
+ --surface-secondary: #F5F6F4; /* tinted primary-25 */
+ --surface-hero: #003036; /* dark teal hero */
+ --surface-sheet: #F5F1E8; /* warm paper sheet */
+ --surface-card-alt: #EDE8DA; /* tinted card alt */
+ --canvas-primary: #F5F6F4; /* default app background */
+ --canvas-lifestyle: #F5F1E8; /* Monument Lifestyle background */
 
-  /* Borders + dividers */
-  --border-primary:   #E9E9E9;
-  --border-tertiary:  #003036;
-  --border-quaternary:#003036;
-  --divider-primary-light:   #F2F2F2;
-  --divider-secondary-light: #E9E9E9;
-  --divider-primary-dark:    rgba(255,255,255,0.1);
-  --divider-secondary-dark:  #003036;
+ /* Borders + dividers */
+ --border-primary: #E9E9E9;
+ --border-tertiary: #003036;
+ --border-quaternary:#003036;
+ --divider-primary-light: #F2F2F2;
+ --divider-secondary-light: #E9E9E9;
+ --divider-primary-dark: rgba(255,255,255,0.1);
+ --divider-secondary-dark: #003036;
 
-  /* Buttons */
-  --btn-primary:            #003036;
-  --btn-primary-active:     #00505A;
-  --btn-primary-text:       #FFFFFF;
-  --btn-secondary:          #FFFFFF;
-  --btn-secondary-text:     #003036;
-  --btn-tertiary:           #F2F2F2;
-  --btn-tertiary-active:    #E9E9E9;
-  --btn-tertiary-text:      #4F4F4F;
-  --btn-disabled:           #E9E9E9;
-  --btn-disabled-text:      #A7A7A7;
+ /* Buttons */
+ --btn-primary: #003036;
+ --btn-primary-active: #00505A;
+ --btn-primary-text: #FFFFFF;
+ --btn-secondary: #FFFFFF;
+ --btn-secondary-text: #003036;
+ --btn-tertiary: #F2F2F2;
+ --btn-tertiary-active: #E9E9E9;
+ --btn-tertiary-text: #4F4F4F;
+ --btn-disabled: #E9E9E9;
+ --btn-disabled-text: #A7A7A7;
 
-  /* Status backgrounds (banners etc) */
-  --status-success-bg:      #F0FDF9;
-  --status-success-primary: #0E9384;
-  --status-warning-bg:      #F8F1F0;
-  --status-warning-primary: #AF5D4F;
-  --status-error-bg:        #FEF3F2;
-  --status-error-primary:   #D92D20;
-  --status-info-bg:         #F0F9FF;
-  --status-info-primary:    #026AA2;
+ /* Status backgrounds (banners etc) */
+ --status-success-bg: #F0FDF9;
+ --status-success-primary: #0E9384;
+ --status-warning-bg: #F8F1F0;
+ --status-warning-primary: #AF5D4F;
+ --status-error-bg: #FEF3F2;
+ --status-error-primary: #D92D20;
+ --status-info-bg: #F0F9FF;
+ --status-info-primary: #026AA2;
 
-  /* Icon */
-  --icon-primary:   #232323;
-  --icon-on-dark:   #FFFFFF;
-  --icon-muted:     #D3D3D3;
-  --icon-brand:     #003036;
+ /* Icon */
+ --icon-primary: #232323;
+ --icon-on-dark: #FFFFFF;
+ --icon-muted: #D3D3D3;
+ --icon-brand: #003036;
 
-  /* Pills */
-  --pill-primary:    #E6EEEF;   /* brand-tinted pill */
-  --pill-secondary:  #E9E9E9;   /* neutral */
-  --pill-tertiary:   #D8D1C0;   /* warm stone */
-  --pill-glass:      rgba(255,255,255,0.5);
+ /* Pills */
+ --pill-primary: #E6EEEF; /* brand-tinted pill */
+ --pill-secondary: #E9E9E9; /* neutral */
+ --pill-tertiary: #D8D1C0; /* warm stone */
+ --pill-glass: rgba(255,255,255,0.5);
 
-  /* ========================================================== */
-  /* SPACING                                                    */
-  /* ========================================================== */
-  --space-none: 0;
-  --space-xs:  4px;
-  --space-sm:  8px;
-  --space-md:  12px;
-  --space-lg:  16px;
-  --space-xl:  20px;
-  --space-xl1: 24px;
-  --space-xl2: 32px;
-  --space-xl3: 40px;
-  --space-xl4: 48px;
-  --space-xl5: 56px;
-  --space-xl6: 64px;
-  --space-xl7: 72px;
-  --space-xl8: 80px;
-  --space-xl10: 96px;
-  --space-xl12: 112px;
-  --space-xl16: 144px;
+ /* ========================================================== */
+ /* SPACING */
+ /* ========================================================== */
+ --space-none: 0;
+ --space-xs: 4px;
+ --space-sm: 8px;
+ --space-md: 12px;
+ --space-lg: 16px;
+ --space-xl: 20px;
+ --space-xl1: 24px;
+ --space-xl2: 32px;
+ --space-xl3: 40px;
+ --space-xl4: 48px;
+ --space-xl5: 56px;
+ --space-xl6: 64px;
+ --space-xl7: 72px;
+ --space-xl8: 80px;
+ --space-xl10: 96px;
+ --space-xl12: 112px;
+ --space-xl16: 144px;
 
-  /* ========================================================== */
-  /* BORDER RADIUS — Heights is deliberately SHARP              */
-  /* ========================================================== */
-  /* RULE: all containers, cards, buttons, inputs use radius 0. */
-  /* Only inherently circular elements use radius-round.        */
-  --radius-none: 0;
-  --radius-round: 9999px;
+ /* ========================================================== */
+ /* BORDER RADIUS - Heights is deliberately SHARP */
+ /* ========================================================== */
+ /* RULE: all containers, cards, buttons, inputs use radius 0. */
+ /* Only inherently circular elements use radius-round. */
+ --radius-none: 0;
+ --radius-round: 9999px;
 
-  /* ========================================================== */
-  /* MOTION                                                     */
-  /* ========================================================== */
-  --ease-out: cubic-bezier(0.2, 0.6, 0.2, 1);
-  --motion-fast:    150ms;
-  --motion-default: 300ms;
-  --motion-slow:    500ms;
+ /* ========================================================== */
+ /* MOTION */
+ /* ========================================================== */
+ --ease-out: cubic-bezier(0.2, 0.6, 0.2, 1);
+ --motion-fast: 150ms;
+ --motion-default: 300ms;
+ --motion-slow: 500ms;
 }
 
 /* ============================================================ */
-/* BASE                                                         */
+/* BASE */
 /* ============================================================ */
 
 html, body {
-  margin: 0;
-  font-family: var(--font-body);
-  color: var(--fg-1);
-  background: var(--canvas-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+ margin: 0;
+ font-family: var(--font-body);
+ color: var(--fg-1);
+ background: var(--canvas-primary);
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================================ */
-/* SEMANTIC TYPOGRAPHY                                          */
-/*                                                              */
-/* Heights pairs Vesterbro (serif display) for titles with       */
-/* Eina 02 (humanist sans) for body and UI. Vesterbro carries   */
-/* personality; Eina carries everything else.                   */
-/*                                                              */
-/* All titles are MEDIUM weight (not bold) — Vesterbro Medium    */
-/* gives a confident but calm presence. Never use uppercase on  */
-/* display text except for the single `.label` style.           */
+/* SEMANTIC TYPOGRAPHY */
+/* */
+/* Heights pairs Vesterbro (serif display) for titles with */
+/* Eina 02 (humanist sans) for body and UI. Vesterbro carries */
+/* personality; Eina carries everything else. */
+/* */
+/* All titles are MEDIUM weight (not bold) - Vesterbro Medium */
+/* gives a confident but calm presence. Never use uppercase on */
+/* display text except for the single `.label` style. */
 /* ============================================================ */
 
 /* ---- Display (editorial hero moments) ---- */
 .display3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 70px;
-  line-height: 72px;
-  letter-spacing: -3px;
-  color: var(--fg-1);
+ font-family: var(--font-display);
+ font-weight: 400;
+ font-size: 70px;
+ line-height: 72px;
+ letter-spacing: -3px;
+ color: var(--fg-1);
 }
 .display2 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 56px;
-  line-height: 58px;
-  letter-spacing: -2.5px;
-  color: var(--fg-1);
+ font-family: var(--font-display);
+ font-weight: 400;
+ font-size: 56px;
+ line-height: 58px;
+ letter-spacing: -2.5px;
+ color: var(--fg-1);
 }
 .display1 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 48px;
-  line-height: 52px;
-  letter-spacing: -2px;
-  color: var(--fg-1);
+ font-family: var(--font-display);
+ font-weight: 400;
+ font-size: 48px;
+ line-height: 52px;
+ letter-spacing: -2px;
+ color: var(--fg-1);
 }
 .display-lifestyle {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 36px;
-  line-height: 40px;
-  letter-spacing: -1.5px;
+ font-family: var(--font-display);
+ font-weight: 400;
+ font-size: 36px;
+ line-height: 40px;
+ letter-spacing: -1.5px;
 }
 
-/* ---- Titles — screen, card, section ---- */
+/* ---- Titles - screen, card, section ---- */
 .title1, h1 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 38px;
-  letter-spacing: -1px;
-  color: var(--fg-1);
-  margin: 0;
+ font-family: var(--font-display);
+ font-weight: 500;
+ font-size: 34px;
+ line-height: 38px;
+ letter-spacing: -1px;
+ color: var(--fg-1);
+ margin: 0;
 }
 .title2, h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 28px;
-  line-height: 32px;
-  letter-spacing: -1px;
-  color: var(--fg-1);
-  margin: 0;
+ font-family: var(--font-display);
+ font-weight: 500;
+ font-size: 28px;
+ line-height: 32px;
+ letter-spacing: -1px;
+ color: var(--fg-1);
+ margin: 0;
 }
 .title3, h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 28px;
-  letter-spacing: -1px;
-  color: var(--fg-1);
-  margin: 0;
+ font-family: var(--font-display);
+ font-weight: 500;
+ font-size: 24px;
+ line-height: 28px;
+ letter-spacing: -1px;
+ color: var(--fg-1);
+ margin: 0;
 }
 .title4, h4 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  letter-spacing: -0.5px;
-  color: var(--fg-1);
-  margin: 0;
+ font-family: var(--font-display);
+ font-weight: 500;
+ font-size: 20px;
+ line-height: 24px;
+ letter-spacing: -0.5px;
+ color: var(--fg-1);
+ margin: 0;
 }
 .title5, h5 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 22px;
-  letter-spacing: -0.5px;
-  color: var(--fg-1);
-  margin: 0;
+ font-family: var(--font-display);
+ font-weight: 500;
+ font-size: 18px;
+ line-height: 22px;
+ letter-spacing: -0.5px;
+ color: var(--fg-1);
+ margin: 0;
 }
 
-/* Meta-titles use Eina Semibold — used for numeric balances, data */
+/* Meta-titles use Eina Semibold - used for numeric balances, data */
 .title1-meta { font-family: var(--font-body); font-weight: 600; font-size: 32px; line-height: 36px; letter-spacing: -0.5px; color: var(--fg-1); }
 .title2-meta { font-family: var(--font-body); font-weight: 600; font-size: 28px; line-height: 32px; letter-spacing: -0.5px; color: var(--fg-1); }
-.title3-meta { font-family: var(--font-body); font-weight: 600; font-size: 24px; line-height: 28px; letter-spacing: -1px;   color: var(--fg-1); }
+.title3-meta { font-family: var(--font-body); font-weight: 600; font-size: 24px; line-height: 28px; letter-spacing: -1px; color: var(--fg-1); }
 
-/* ---- Title 6/7 — small section caps (Eina) ---- */
+/* ---- Title 6/7 - small section caps (Eina) ---- */
 .title6, h6 { font-family: var(--font-body); font-weight: 600; font-size: 16px; line-height: 20px; color: var(--fg-1); margin: 0; }
-.title7    { font-family: var(--font-body); font-weight: 600; font-size: 14px; line-height: 18px; color: var(--fg-1); }
+.title7 { font-family: var(--font-body); font-weight: 600; font-size: 14px; line-height: 18px; color: var(--fg-1); }
 
 /* ---- Body / paragraph ---- */
-.body1, p    { font-family: var(--font-body); font-weight: 400; font-size: 16px; line-height: 24px; color: var(--fg-1); margin: 0; }
-.body1-bold  { font-family: var(--font-body); font-weight: 600; font-size: 16px; line-height: 24px; color: var(--fg-1); }
-.body2       { font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 20px; color: var(--fg-1); }
-.body2-bold  { font-family: var(--font-body); font-weight: 600; font-size: 14px; line-height: 20px; color: var(--fg-1); }
+.body1, p { font-family: var(--font-body); font-weight: 400; font-size: 16px; line-height: 24px; color: var(--fg-1); margin: 0; }
+.body1-bold { font-family: var(--font-body); font-weight: 600; font-size: 16px; line-height: 24px; color: var(--fg-1); }
+.body2 { font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 20px; color: var(--fg-1); }
+.body2-bold { font-family: var(--font-body); font-weight: 600; font-size: 14px; line-height: 20px; color: var(--fg-1); }
 
 /* ---- Caption ---- */
-.caption1      { font-family: var(--font-body); font-weight: 400; font-size: 13px; line-height: 17px; color: var(--fg-2); }
+.caption1 { font-family: var(--font-body); font-weight: 400; font-size: 13px; line-height: 17px; color: var(--fg-2); }
 .caption1-bold { font-family: var(--font-body); font-weight: 600; font-size: 13px; line-height: 17px; color: var(--fg-2); }
-.caption2      { font-family: var(--font-body); font-weight: 400; font-size: 12px; line-height: 14px; color: var(--fg-2); }
+.caption2 { font-family: var(--font-body); font-weight: 400; font-size: 12px; line-height: 14px; color: var(--fg-2); }
 
-/* ---- Label — the ONLY uppercase treatment ---- */
+/* ---- Label - the ONLY uppercase treatment ---- */
 .label {
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--fg-1);
+ font-family: var(--font-body);
+ font-weight: 600;
+ font-size: 12px;
+ line-height: 16px;
+ letter-spacing: 1px;
+ text-transform: uppercase;
+ color: var(--fg-1);
 }
 
 /* Utility helpers you'll want constantly */
