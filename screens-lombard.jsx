@@ -553,7 +553,6 @@ const LombardPreview = ({ amount, term, onChangeTerm, onBack, onExit, onContinue
  <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
  <TopBar onBack={onBack} onClose={onExit || onBack} closeLabel="Exit"/>
  <div className="content">
- <div className="pill pill-stone" style={{ marginBottom: 14 }}>Repayment plan</div>
  <h2 className="q-title" style={{ marginBottom: 4 }}>Your repayments</h2>
  <p className="q-sub" style={{ marginBottom: 20 }}>
  {fmtGBP(amount)} drawdown at {LOMBARD_APR.toFixed(2)}% APR (BoE {BOE_RATE}% + 1.5%).
@@ -666,7 +665,7 @@ const LombardSuccess = ({ amount, term, purpose, onBack, onHome }) => {
  <ConfettiTickLottie size={220}/>
  </div>
 
- <h2 className="q-title" style={{ textAlign: "center", margin: "24px 0", fontSize: 42, lineHeight: 1.2 }}>Your drawdown is complete</h2>
+ <h2 className="q-title" style={{ textAlign: "center", margin: "24px 0", fontSize: 30, lineHeight: 1.2 }}>Your drawdown is complete</h2>
  <p className="q-sub" style={{ marginBottom: 24, textAlign: "center" }}>
  <b style={{ color: "var(--fg-1)" }}>{fmtGBP(amount)}</b> is immediately available in your <b style={{ color: "var(--fg-1)" }}>Easy Access Savings</b>. Your first repayment is due next month, and you can draw again from your credit line anytime.
  </p>

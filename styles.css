@@ -120,21 +120,21 @@ html, body {
 
 /* ---- Forward (push) ---- */
 .nav-stack[data-dir="forward"] .nav-entering {
- animation: navPushInRight .52s cubic-bezier(.22,.61,.36,1) both;
+ animation: navPushInRight .5s cubic-bezier(.22,.61,.36,1) both;
  z-index: 2;
 }
 .nav-stack[data-dir="forward"] .nav-leaving {
- animation: navPushOutLeft .52s cubic-bezier(.22,.61,.36,1) both;
+ animation: navPushOutLeft .5s cubic-bezier(.22,.61,.36,1) both;
  z-index: 1;
 }
 
 /* ---- Back (pop) ---- */
 .nav-stack[data-dir="back"] .nav-entering {
- animation: navPopInLeft .52s cubic-bezier(.22,.61,.36,1) both;
+ animation: navPopInLeft .5s cubic-bezier(.22,.61,.36,1) both;
  z-index: 1;
 }
 .nav-stack[data-dir="back"] .nav-leaving {
- animation: navPopOutRight .52s cubic-bezier(.22,.61,.36,1) both;
+ animation: navPopOutRight .5s cubic-bezier(.22,.61,.36,1) both;
  z-index: 2;
 }
 
@@ -288,6 +288,34 @@ html, body {
  display: flex; flex-direction: column; gap: 22px;
 }
 
+/* Full-bleed teal intro splash */
+.home-splash {
+ position: absolute; inset: 0;
+ background: var(--surface-hero);
+ color: #fff;
+ display: flex; flex-direction: column; align-items: center;
+ justify-content: flex-start;
+ padding-top: 55%;
+ z-index: 50;
+ animation: homeSplashFade .5s ease-in 2.9s forwards;
+ pointer-events: none;
+}
+.home-splash-text {
+ font: 500 30px/36px var(--font-display);
+ color: #fff;
+ letter-spacing: -0.5px;
+ text-align: center;
+ opacity: 0;
+ transform: translateY(6px);
+ animation: homeSplashIn .55s cubic-bezier(.2,.7,.2,1) .15s forwards;
+}
+@keyframes homeSplashIn {
+ to { opacity: 1; transform: translateY(0); }
+}
+@keyframes homeSplashFade {
+ to { opacity: 0; }
+}
+
 /* Greeting → net worth swap */
 .home-greet-swap {
  position: relative;
@@ -371,7 +399,7 @@ html, body {
 .list-group.on-canvas { background: transparent; }
 .listrow {
  display: flex; align-items: center; gap: 14px;
- padding: 20px 16px;
+ padding: 20px;
  border-bottom: 1px solid var(--divider-primary-light);
  background: #fff; border-left: 0; border-right: 0; border-top: 0; width: 100%;
  text-align: left; font-family: inherit; cursor: pointer;
@@ -2542,4 +2570,34 @@ html, body {
  font: 500 18px/22px var(--font-body);
  color: var(--color-primary-700, #003036);
  font-variant-numeric: tabular-nums;
+}
+
+
+/* Home intro splash - full-bleed teal */
+.screen-home { position: relative; }
+.home-splash {
+  position: absolute; inset: 0;
+  background: var(--surface-hero, #003036);
+  color: #fff;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: flex-start;
+  padding-top: 42%;
+  z-index: 50;
+  animation: homeSplashFade .5s ease-in 2.9s forwards;
+  pointer-events: none;
+}
+.home-splash-text {
+  font: 500 30px/36px var(--font-display, 'Times New Roman', serif);
+  color: #fff;
+  letter-spacing: -0.5px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: homeSplashIn .55s cubic-bezier(.2,.7,.2,1) .15s forwards;
+}
+@keyframes homeSplashIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes homeSplashFade {
+  to { opacity: 0; visibility: hidden; }
 }

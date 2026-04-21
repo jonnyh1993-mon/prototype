@@ -2,20 +2,19 @@
 
 // ------------ HOME SCREEN ------------
 const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings = [], loans = [], staticMode = false }) => {
- // Phases: "greeting" (first 1.2s) -> "networth" (fade swap) -> account rows stagger in.
- // Only play the intro once per session so coming back from the flow doesn't re-animate (feels flashy).
+ // Intro: full-bleed teal splash with "Good afternoon, Wasim" for ~1.2s,
+ // then cross-fade into the regular home. No per-row stagger/shimmer.
+ // Only play once per session so re-entries don't replay the splash.
  const alreadySeen = (() => { try { return sessionStorage.getItem("inv_home_seen") === "1"; } catch { return false; } })();
- const [phase, setPhase] = React.useState(staticMode || alreadySeen ? "networth" : "greeting");
- const [revealed, setRevealed] = React.useState(staticMode || alreadySeen);
+ const [splash, setSplash] = React.useState(!(staticMode || alreadySeen));
 
  React.useEffect(() => {
  if (staticMode || alreadySeen) return;
- const t1 = setTimeout(() => setPhase("networth"), 1400);
- const t2 = setTimeout(() => {
- setRevealed(true);
+ const t = setTimeout(() => {
+ setSplash(false);
  try { sessionStorage.setItem("inv_home_seen", "1"); } catch {}
- }, 1700);
- return () => { clearTimeout(t1); clearTimeout(t2); };
+ }, 3400);
+ return () => clearTimeout(t);
  }, [staticMode, alreadySeen]);
 
  // Single source of truth: accounts store. Bank accounts are static;
@@ -33,22 +32,24 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
 
  return (
  <div className="screen screen-home" data-screen-label="01 Home">
+ {splash && (
+ <div className="home-splash">
+ <div className="home-splash-text">Good afternoon, Wasim</div>
+ </div>
+ )}
  <div className="phone-body">
- <div className="home-hero" style={{padding: "24px 24px 32px", margin: 0}}>
- <div className={"home-greet-swap " + phase}>
- <div className="home-hello">Good morning, Wasim</div>
- <div className="home-networth">
+ <div className="home-hero" style={{padding: "64px 24px", margin: 0}}>
+ <div className="home-networth" style={{ position: "static" }}>
  <div className="home-balance-label" style={{textAlign: "center", fontSize: 14}}>Net worth</div>
  <div className="home-balance" style={{textAlign: "center"}}>£{netWorth.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
  <div className="home-perf" style={{textAlign: "center", fontSize: 16}}>▲ £6,719.20 this month</div>
  </div>
  </div>
- </div>
 
- <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "0ms"}}>Savings accounts</div>
+ <div className={"section-heading"} style={{fontSize: 16, padding: "32px 16px 16px"}}>Savings accounts</div>
  <div className="list-group">
  {bank.map((a, i) => (
- <button key={a.id} className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": `${60 + i * 60}ms`}}>
+ <button key={a.id} className={"listrow"}>
  <span className="listrow-body">
  <span className="listrow-title" style={{fontSize: 16}}>{a.title}</span>
  <span className="listrow-sub">{a.sub}</span>
@@ -65,8 +66,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
  const renderRow = (a, i, delayStart) => (
  <button
  key={a.id}
- className={"listrow home-reveal" + (revealed ? " in" : "")}
- style={{"--d": `${delayStart + i * 60}ms`}}
+ className={"listrow"}
  onClick={() => onOpenHolding && onOpenHolding(a.id)}
  >
  <span className="listrow-body">
@@ -87,7 +87,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
  <React.Fragment>
  {nonPension.length > 0 && (
  <React.Fragment>
- <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "200ms"}}>Investments</div>
+ <div className={"section-heading"} style={{fontSize: 16, padding: "32px 16px 16px"}}>Investments</div>
  <div className="list-group">
  {nonPension.map((a, i) => renderRow(a, i, 240))}
  </div>
@@ -95,7 +95,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
  )}
  {pension.length > 0 && (
  <React.Fragment>
- <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "260ms"}}>Pension</div>
+ <div className={"section-heading"} style={{fontSize: 16, padding: "32px 16px 16px"}}>Pension</div>
  <div className="list-group">
  {pension.map((a, i) => renderRow(a, i, 300))}
  </div>
@@ -107,9 +107,9 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
 
  {hasLoan && (
  <React.Fragment>
- <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "230ms"}}>Borrowing</div>
+ <div className={"section-heading"} style={{fontSize: 16, padding: "32px 16px 16px"}}>Borrowing</div>
  <div className="list-group">
- <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "250ms"}}>
+ <button className={"listrow"}>
  <span className="listrow-body">
  <span className="listrow-title" style={{fontSize: 16}}>Lombard loan</span>
  <span className="listrow-sub">{LOMBARD_APR.toFixed(2)}% APR · secured against your portfolio</span>
@@ -121,9 +121,9 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
  </React.Fragment>
  )}
 
- <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "260ms"}}>Do more with Monument</div>
+ <div className={"section-heading"} style={{fontSize: 16, padding: "32px 16px 16px"}}>Do more with Monument</div>
  <div className="list-group">
- <button className={"listrow highlight home-reveal" + (revealed ? " in" : "")} style={{"--d": "320ms", background: "var(--color-secondary-200)", padding: 24, gap: 16}} onClick={onOpenInvestments}>
+ <button className={"listrow highlight"} style={{background: "var(--color-secondary-200)", padding: 24, gap: 16}} onClick={onOpenInvestments}>
  <span className="listrow-icon" style={{ background: "transparent", borderRadius: 0, overflow: "visible" }}>
  <img src="assets/icons/home-investments.png" alt="" style={{ width: 44, height: 44, objectFit: "contain" }}/>
  </span>
@@ -133,7 +133,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
  </span>
  <ChevR/>
  </button>
- <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "380ms", padding: 24, gap: 16}} onClick={onOpenBorrow}>
+ <button className={"listrow"} style={{padding: 24, gap: 16}} onClick={onOpenBorrow}>
  <span className="listrow-icon" style={{ background: "transparent", borderRadius: 0, overflow: "visible" }}>
  <img src="assets/icons/home-lending.png" alt="" style={{ width: 44, height: 44, objectFit: "contain" }}/>
  </span>

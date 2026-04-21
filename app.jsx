@@ -70,6 +70,7 @@ function App() {
  setTweaks(t => ({ ...t, [key]: val }));
  window.parent.postMessage({ type: "__edit_mode_set_keys", edits: { [key]: val } }, "*");
  };
+ const [homeKey, setHomeKey] = React.useState(0);
  const resetProto = () => {
  setRoute({ name: "home" });
  setAnswers(INITIAL_ANSWERS);
@@ -78,6 +79,7 @@ function App() {
  setLombard(INITIAL_LOMBARD);
  localStorage.removeItem("inv_proto_v1");
  try { sessionStorage.removeItem("inv_home_seen"); } catch {}
+ setHomeKey(k => k + 1); // force HomeScreen remount so splash plays again
  };
 
  // Expose reset to children (Profile tab on Home) via a window event
@@ -111,6 +113,7 @@ function App() {
  switch (route.name) {
  case "home":
  return <HomeScreen
+ key={homeKey}
  onOpenInvestments={openInvestments}
  holdings={holdings}
  loans={loans}
@@ -488,7 +491,7 @@ function App() {
  // Push-left / push-right animation on every screen change, driven by
  // STEP_ORDER direction above. No instant-cut exceptions.
  setPrevRoute(prev);
- const t = setTimeout(() => setPrevRoute(null), 560); // animation duration (.52s) + small buffer
+ const t = setTimeout(() => setPrevRoute(null), 540); // animation duration (.5s) + small buffer
  return () => clearTimeout(t);
  }, [route]);
 
