@@ -342,8 +342,15 @@ const LANDING_SLIDES = [
  {
  kind: "story",
  eyebrow: null,
- title: "Accounts fit for your goals",
- body: "Tax efficient investing in a Stocks & Shares ISA or full flexibility in a General Investment Account.",
+ title: "Access hard to buy assets",
+ body: "Buy private equity, tokenised investments, alternative assets and more.",
+ image: "assets/landing-3.png",
+ },
+ {
+ kind: "story",
+ eyebrow: null,
+ title: "Manage everything in one place",
+ body: "One fee, no transaction fees or trading fees.",
  image: "assets/landing-3.png",
  },
 ];
@@ -457,7 +464,6 @@ const InvestmentsLanding = ({ onBack, onContinue }) => {
  />
  ))}
  </div>
- <button className="topbar-skip">Skip</button>
  </div>
 
  <div
@@ -559,7 +565,7 @@ window.HoldingDetail = ({ accountId, holdings = [], onBack }) => {
 
  {/* Balance hero - paper card */}
  <div style={{ margin: "12px 16px 8px", padding: "24px 24px 28px", background: "var(--color-secondary-200)", borderRadius: 12, textAlign: "center" }}>
- <div style={{ fontSize: 13, color: "var(--color-secondary-500, #66969C)", letterSpacing: 1, fontWeight: 600, textTransform: "uppercase" }}>
+ <div style={{ fontSize: 14, color: "var(--color-secondary-500, #66969C)", letterSpacing: 1, fontWeight: 600, textTransform: "uppercase" }}>
  {account.sub}
  </div>
  <div style={{ fontSize: 36, fontFamily: "var(--font-display), Georgia, serif", fontWeight: 500, color: "#003036", marginTop: 8, letterSpacing: -1 }}>
@@ -569,7 +575,7 @@ window.HoldingDetail = ({ accountId, holdings = [], onBack }) => {
  ▲ £{perfMonth.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} this month
  </div>
  {account.monthly > 0 && (
- <div style={{ fontSize: 12, color: "var(--color-secondary-500, #66969C)", marginTop: 6 }}>
+ <div style={{ fontSize: 14, color: "var(--color-secondary-500, #66969C)", marginTop: 6 }}>
  +£{account.monthly.toLocaleString("en-GB")}/mo direct debit
  </div>
  )}
@@ -583,7 +589,7 @@ window.HoldingDetail = ({ accountId, holdings = [], onBack }) => {
  {account.holdings.map(h => (
  <div key={h.id} className="listrow" style={{ cursor: "default", background: "var(--color-secondary-200)" }}>
  <span className="listrow-body">
- <span className="listrow-title" style={{ fontSize: 15 }}>{h.name}</span>
+ <span className="listrow-title" style={{ fontSize: 16 }}>{h.name}</span>
  <span className="listrow-sub">
  {h.ticker ? h.ticker : (h.frequency === "monthly" ? "Monthly direct debit" : "One-off")}
  {h.oneYr != null && <> · <span style={{ color: h.oneYr >= 0 ? "#1F7A53" : "#A33636" }}>{h.oneYr >= 0 ? "▲" : "▼"} {Math.abs(h.oneYr).toFixed(1)}% 1y</span></>}
@@ -596,7 +602,7 @@ window.HoldingDetail = ({ accountId, holdings = [], onBack }) => {
  ))}
  </div>
 
- <div style={{ padding: "16px 24px 24px", fontSize: 12, color: "var(--color-secondary-500, #66969C)", lineHeight: 1.4 }}>
+ <div style={{ padding: "16px 24px 24px", fontSize: 14, color: "var(--color-secondary-500, #66969C)", lineHeight: 1.4 }}>
  The value of your investments can go down as well as up. Past performance is not a guide to future returns. 1y figures are illustrative.
  </div>
  </div>

@@ -339,7 +339,7 @@ const LombardPledge = ({ eligibleAssets = [], pledged, onChangePledged, onBack, 
  margin: "8px 0 24px",
  textAlign: "center",
  }}>
- <div style={{ fontSize: 12, letterSpacing: 1.2, fontWeight: 600, color: "var(--fg-2)", textTransform: "uppercase", marginBottom: 8 }}>
+ <div style={{ fontSize: 14, letterSpacing: 1.2, fontWeight: 600, color: "var(--fg-2)", textTransform: "uppercase", marginBottom: 8 }}>
  Credit line you'd unlock
  </div>
  <div style={{
@@ -352,7 +352,7 @@ const LombardPledge = ({ eligibleAssets = [], pledged, onChangePledged, onBack, 
  }}>
  {fmtGBP(capacity)}
  </div>
- <div style={{ fontSize: 13, color: "var(--fg-2)", marginTop: 10 }}>
+ <div style={{ fontSize: 14, color: "var(--fg-2)", marginTop: 10 }}>
  {set.size === 0 ? "Select assets below to pledge" : `${set.size} of ${eligibleAssets.length} pledged · 50% of their value`}
  </div>
  <div className="lombard-pledge-bar" style={{ marginTop: 14 }}>

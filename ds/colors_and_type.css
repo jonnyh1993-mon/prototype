@@ -379,15 +379,15 @@ html, body {
 .body2-bold { font-family: var(--font-body); font-weight: 600; font-size: 14px; line-height: 20px; color: var(--fg-1); }
 
 /* ---- Caption ---- */
-.caption1 { font-family: var(--font-body); font-weight: 400; font-size: 13px; line-height: 17px; color: var(--fg-2); }
-.caption1-bold { font-family: var(--font-body); font-weight: 600; font-size: 13px; line-height: 17px; color: var(--fg-2); }
-.caption2 { font-family: var(--font-body); font-weight: 400; font-size: 12px; line-height: 14px; color: var(--fg-2); }
+.caption1 { font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 20px; color: var(--fg-2); }
+.caption1-bold { font-family: var(--font-body); font-weight: 600; font-size: 14px; line-height: 20px; color: var(--fg-2); }
+.caption2 { font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 18px; color: var(--fg-2); }
 
 /* ---- Label - the ONLY uppercase treatment ---- */
 .label {
  font-family: var(--font-body);
  font-weight: 600;
- font-size: 12px;
+ font-size: 14px;
  line-height: 16px;
  letter-spacing: 1px;
  text-transform: uppercase;
