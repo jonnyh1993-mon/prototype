@@ -122,7 +122,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V4M16 20v-8M22 20v-4" strokeWidth="1.8" strokeLinecap="round"/></svg>
           <span className="tab-label">Invest</span>
         </button>
-        <button className="tab">
+        <button className="tab" onClick={() => { window.location.href = "https://gizmo-gulf-75578847.figma.site/"; }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 8h14l-1 12H6L5 8zM9 8V5a3 3 0 016 0v3" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
           <span className="tab-label">Lifestyle</span>
         </button>
