@@ -4,7 +4,8 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "showSecondPhone": false,
   "introSheet": true,
   "feliciaIntro": true,
-  "reassuranceStyle": "personal"
+  "reassuranceStyle": "personal",
+  "lombardCarousel": "editorial"
 }/*EDITMODE-END*/;
 
 const INITIAL_ANSWERS = {
@@ -18,6 +19,13 @@ const INITIAL_ANSWERS = {
   investFrequency: "one-off",
 };
 
+const INITIAL_LOMBARD = {
+  purpose: null,
+  amount: 25000,
+  term: 60,      // months
+  pledged: [],
+};
+
 const TOTAL_STEPS = 4; // purpose, priority, horizon, exclusions
 
 function App() {
@@ -25,7 +33,7 @@ function App() {
   const [tweakVisible, setTweakVisible] = React.useState(false);
 
   // Route state is: { name, ... }
-  const VALID_ROUTES = new Set(["home","investments","picker","felicia","purpose","reassure-purpose","priority","reassure-priority","horizon","reassure-horizon","exclusions","reassure-exclusions","processing","result","detail","eligibility","invest-amount","confirm","holding-detail"]);
+  const VALID_ROUTES = new Set(["home","investments","picker","felicia","purpose","reassure-purpose","priority","reassure-priority","horizon","reassure-horizon","exclusions","reassure-exclusions","processing","result","detail","eligibility","invest-amount","confirm","holding-detail","lombard-intro","lombard-capacity","lombard-purpose","lombard-pledge","lombard-eligibility","lombard-approved","lombard-drawdown","lombard-preview","lombard-review","lombard-success"]);
   const saved = (() => {
     try {
       const s = JSON.parse(localStorage.getItem("inv_proto_v1") || "null");
@@ -37,12 +45,14 @@ function App() {
   const [route, setRoute] = React.useState(saved?.route || { name: "home" });
   const [answers, setAnswers] = React.useState(saved?.answers || INITIAL_ANSWERS);
   const [holdings, setHoldings] = React.useState(saved?.holdings || []);
+  const [loans, setLoans] = React.useState(saved?.loans || []);
+  const [lombard, setLombard] = React.useState(saved?.lombard || INITIAL_LOMBARD);
   const [whyOpen, setWhyOpen] = React.useState(false);
 
   // Persist
   React.useEffect(() => {
-    localStorage.setItem("inv_proto_v1", JSON.stringify({ route, answers, holdings }));
-  }, [route, answers, holdings]);
+    localStorage.setItem("inv_proto_v1", JSON.stringify({ route, answers, holdings, loans, lombard }));
+  }, [route, answers, holdings, loans, lombard]);
 
   // Edit-mode plumbing
   React.useEffect(() => {
@@ -64,6 +74,8 @@ function App() {
     setRoute({ name: "home" });
     setAnswers(INITIAL_ANSWERS);
     setHoldings([]);
+    setLoans([]);
+    setLombard(INITIAL_LOMBARD);
     localStorage.removeItem("inv_proto_v1");
     try { sessionStorage.removeItem("inv_home_seen"); } catch {}
   };
@@ -76,6 +88,7 @@ function App() {
   }, []);
 
   const setAnswer = (k, v) => setAnswers(a => ({ ...a, [k]: v }));
+  const setLomb = (k, v) => setLombard(l => ({ ...l, [k]: v }));
 
   // ---- navigation actions ----
   const startHelpPick = () => {
@@ -97,7 +110,13 @@ function App() {
   const renderScreen = () => {
     switch (route.name) {
       case "home":
-        return <HomeScreen onOpenInvestments={openInvestments} holdings={holdings} onOpenHolding={() => setRoute({ name: "holding-detail" })}/>;
+        return <HomeScreen
+          onOpenInvestments={openInvestments}
+          holdings={holdings}
+          loans={loans}
+          onOpenHolding={() => setRoute({ name: "holding-detail" })}
+          onOpenBorrow={() => setRoute({ name: "lombard-intro" })}
+        />;
 
       case "investments":
         return <InvestmentsLanding
@@ -278,6 +297,105 @@ function App() {
           onBack={() => setRoute({ name: "home" })}
         />;
 
+      // ---- Lombard (borrow against assets) ----
+      case "lombard-intro":
+        return <LombardCarousel
+          variant={tweaks.lombardCarousel || "editorial"}
+          onBack={() => setRoute({ name: "home" })}
+          onContinue={() => setRoute({ name: "lombard-capacity" })}
+        />;
+
+      case "lombard-capacity":
+        return <LombardCapacity
+          eligibleAssets={getEligibleAssets(holdings)}
+          onBack={() => setRoute({ name: "lombard-intro" })}
+          onExit={() => setRoute({ name: "home" })}
+          onContinue={() => setRoute({ name: "lombard-purpose" })}
+        />;
+
+      case "lombard-purpose":
+        return <LombardPurpose
+          value={lombard.purpose}
+          onChange={v => setLomb("purpose", v)}
+          onBack={() => setRoute({ name: "lombard-capacity" })}
+          onExit={() => setRoute({ name: "home" })}
+          onContinue={() => setRoute({ name: "lombard-pledge" })}
+        />;
+
+      case "lombard-pledge":
+        return <LombardPledge
+          eligibleAssets={getEligibleAssets(holdings)}
+          pledged={lombard.pledged}
+          onChangePledged={v => setLomb("pledged", v)}
+          onBack={() => setRoute({ name: "lombard-purpose" })}
+          onExit={() => setRoute({ name: "home" })}
+          onContinue={() => setRoute({ name: "lombard-eligibility" })}
+        />;
+
+      case "lombard-eligibility":
+        return <LombardEligibility
+          onBack={() => setRoute({ name: "lombard-pledge" })}
+          onExit={() => setRoute({ name: "home" })}
+          onContinue={() => setRoute({ name: "lombard-approved" })}
+        />;
+
+      case "lombard-approved":
+        return <LombardApproved
+          eligibleAssets={getEligibleAssets(holdings)}
+          pledged={lombard.pledged}
+          onContinue={() => setRoute({ name: "lombard-drawdown" })}
+        />;
+
+      case "lombard-drawdown":
+        return <LombardDrawdown
+          eligibleAssets={getEligibleAssets(holdings)}
+          value={lombard.amount}
+          onChange={v => setLomb("amount", v)}
+          pledged={lombard.pledged}
+          onBack={() => setRoute({ name: "lombard-approved" })}
+          onExit={() => setRoute({ name: "home" })}
+          onContinue={() => setRoute({ name: "lombard-preview" })}
+        />;
+
+      case "lombard-preview":
+        return <LombardPreview
+          amount={lombard.amount}
+          term={lombard.term}
+          onChangeTerm={v => setLomb("term", v)}
+          onBack={() => setRoute({ name: "lombard-drawdown" })}
+          onExit={() => setRoute({ name: "home" })}
+          onContinue={() => setRoute({ name: "lombard-review" })}
+        />;
+
+      case "lombard-review":
+        return <LombardReview
+          amount={lombard.amount}
+          term={lombard.term}
+          purpose={lombard.purpose}
+          pledged={lombard.pledged}
+          onBack={() => setRoute({ name: "lombard-preview" })}
+          onExit={() => setRoute({ name: "home" })}
+          onConfirm={() => {
+            setLoans(ls => [...ls, {
+              amount: lombard.amount,
+              term: lombard.term,
+              purpose: lombard.purpose,
+              pledged: lombard.pledged,
+              placedAt: Date.now(),
+            }]);
+            setRoute({ name: "lombard-success" });
+          }}
+        />;
+
+      case "lombard-success":
+        return <LombardSuccess
+          amount={lombard.amount}
+          onHome={() => {
+            setRoute({ name: "home" });
+            setLombard(INITIAL_LOMBARD);
+          }}
+        />;
+
       default:
         // Unknown route — reset to home
         setTimeout(() => setRoute({ name: "home" }), 0);
@@ -357,8 +475,21 @@ function App() {
     const toIdx = STEP_ORDER.indexOf(route.name);
     const direction = toIdx >= fromIdx ? "forward" : "back";
     setDir(direction);
-    setPrevRoute(lastRoute.current);
+
+    const fromName = lastRoute.current.name;
+    const toName = route.name;
+    const prev = lastRoute.current;
     lastRoute.current = route;
+
+    // Instant cut for home <-> investments (no slide animation).
+    const instantPairs = [["home", "investments"], ["investments", "home"], ["investments", "picker"], ["picker", "investments"]];
+    const isInstant = instantPairs.some(([a, b]) => fromName === a && toName === b);
+    if (isInstant) {
+      setPrevRoute(null);
+      return;
+    }
+
+    setPrevRoute(prev);
     const t = setTimeout(() => setPrevRoute(null), 380); // animation duration + small buffer
     return () => clearTimeout(t);
   }, [route]);
@@ -387,6 +518,27 @@ function App() {
         const f = FUNDS.find(f => f.id === r.fundId);
         return <ConfirmScreen fundName={f?.name} amount={answers.amount} frequency={answers.investFrequency || "one-off"} onBack={()=>{}} onHome={()=>{}}/>;
       }
+      // ---- Lombard ----
+      case "lombard-intro":
+        return <LombardCarousel variant={tweaks.lombardCarousel || "editorial"} onBack={()=>{}} onContinue={()=>{}}/>;
+      case "lombard-capacity":
+        return <LombardCapacity eligibleAssets={getEligibleAssets(holdings)} onBack={()=>{}} onExit={()=>{}} onContinue={()=>{}}/>;
+      case "lombard-purpose":
+        return <LombardPurpose value={lombard.purpose} onChange={()=>{}} onBack={()=>{}} onExit={()=>{}} onContinue={()=>{}}/>;
+      case "lombard-pledge":
+        return <LombardPledge eligibleAssets={getEligibleAssets(holdings)} pledged={lombard.pledged} onChangePledged={()=>{}} onBack={()=>{}} onExit={()=>{}} onContinue={()=>{}}/>;
+      case "lombard-eligibility":
+        return <LombardEligibility onBack={()=>{}} onExit={()=>{}} onContinue={()=>{}}/>;
+      case "lombard-approved":
+        return <LombardApproved eligibleAssets={getEligibleAssets(holdings)} pledged={lombard.pledged} onContinue={()=>{}}/>;
+      case "lombard-drawdown":
+        return <LombardDrawdown eligibleAssets={getEligibleAssets(holdings)} value={lombard.amount} onChange={()=>{}} pledged={lombard.pledged} onBack={()=>{}} onExit={()=>{}} onContinue={()=>{}}/>;
+      case "lombard-preview":
+        return <LombardPreview amount={lombard.amount} term={lombard.term} onChangeTerm={()=>{}} onBack={()=>{}} onExit={()=>{}} onContinue={()=>{}}/>;
+      case "lombard-review":
+        return <LombardReview amount={lombard.amount} term={lombard.term} purpose={lombard.purpose} pledged={lombard.pledged} onBack={()=>{}} onExit={()=>{}} onConfirm={()=>{}}/>;
+      case "lombard-success":
+        return <LombardSuccess amount={lombard.amount} onHome={()=>{}}/>;
       default: return null;
     }
   };
@@ -480,6 +632,14 @@ function App() {
             </div>
           </div>
 
+          <div className="tweaks-row">
+            <label>Borrow carousel style</label>
+            <div className="opts">
+              <button className={"opt" + (tweaks.lombardCarousel === "editorial" ? " active" : "")} onClick={() => applyTweak("lombardCarousel", "editorial")}>Editorial</button>
+              <button className={"opt" + (tweaks.lombardCarousel === "type" ? " active" : "")} onClick={() => applyTweak("lombardCarousel", "type")}>Type-led</button>
+            </div>
+          </div>
+
           <button className="tweaks-reset" onClick={resetProto}>↺ Reset flow to start</button>
         </div>
       )}
@@ -490,7 +650,7 @@ function App() {
 }
 
 // Global keyboard: arrows to skip between steps (attached in App via useEffect)
-const STEP_ORDER = ["home","investments","picker","felicia","purpose","reassure-purpose","priority","reassure-priority","horizon","reassure-horizon","exclusions","reassure-exclusions","processing","result","detail","eligibility","invest-amount","confirm","holding-detail"];
+const STEP_ORDER = ["home","investments","picker","felicia","purpose","reassure-purpose","priority","reassure-priority","horizon","reassure-horizon","exclusions","reassure-exclusions","processing","result","detail","eligibility","invest-amount","confirm","holding-detail","lombard-intro","lombard-capacity","lombard-purpose","lombard-pledge","lombard-eligibility","lombard-approved","lombard-drawdown","lombard-preview","lombard-review","lombard-success"];
 
 function GlobalKeys({ route, setRoute }) {
   React.useEffect(() => {

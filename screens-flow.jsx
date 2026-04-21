@@ -133,43 +133,43 @@ const PriorityScreen = ({ onBack, onExit, onContinue, value, onChange, progress 
 // Keyed as REASSURANCE_COPY[question][answerId]. Each question has a default fallback.
 const REASSURANCE_COPY = {
   purpose: {
-    grow:       { title: "Time is the biggest lever",                                 body: "Ten pounds invested for thirty years matters more than a thousand pounds invested for one. We'll match you to a fund that makes the most of your horizon." },
-    retirement: { title: "Layered on top of your pension,\nnot instead of it",        body: "We'll assume this sits alongside your existing retirement provision, complementing it, not replacing it." },
-    purchase:   { title: "For a purchase in 3–5 years,\nwe stay closer to shore",     body: "Short horizons need different tools. We'll lean toward funds that protect your capital while still working harder than a savings account." },
-    income:     { title: "Income that's paid,\nnot promised",                         body: "The funds we shortlist will have a genuine income yield from real holdings, dividends, coupons, and distributions, not just capital you're drawing down." },
-    inflation:  { title: "Keep up with the cost of living",                           body: "Cash loses value quietly. We'll shortlist funds designed to outpace inflation over the long run, so your money holds its real-world worth." },
-    _default:   { title: "A goal, not a guarantee",                                   body: "Whatever you're investing for, we'll match the fund to the job, not the other way around." },
+    grow:       { title: "Time is the biggest lever",                   body: "Ten pounds invested for thirty years matters more than a thousand pounds invested for one. We'll match you to a fund that makes the most of your horizon." },
+    retirement: { title: "A layer on top of your pension",              body: "We'll assume this sits alongside your existing retirement provision, complementing it, not replacing it." },
+    purchase:   { title: "A short horizon needs a different tool",      body: "Short horizons need different tools. We'll lean toward funds that protect your capital while still working harder than a savings account." },
+    income:     { title: "Income that's paid, not promised",            body: "The funds we shortlist will have a genuine income yield from real holdings, dividends, coupons, and distributions, not just capital you're drawing down." },
+    inflation:  { title: "Keep up with the cost of living",             body: "Cash loses value quietly. We'll shortlist funds designed to outpace inflation over the long run, so your money holds its real-world worth." },
+    _default:   { title: "A goal, not a guarantee",                     body: "Whatever you're investing for, we'll match the fund to the job, not the other way around." },
   },
   priority: {
-    growth:     { title: "Growth takes patience\nand stomach",                        body: "Leaning toward growth means we'll favour funds with more equity exposure. That drives returns over time, but expect bigger swings on the way." },
-    balanced:   { title: "A foot in both camps",                                       body: "A balanced priority lets us blend growth assets with stabilisers, diversifying so no single bad year dominates your experience." },
-    protection: { title: "Protection first\nGrowth where we can",                     body: "We'll lean on funds with more bonds, cash-like holdings, and defensive assets. Expect steadier ground, and more modest long-term growth." },
-    _default:   { title: "Priorities shape the shortlist",                             body: "Your answer here is one of the biggest levers in the match we'll show you." },
+    growth:     { title: "Growth rewards patience",                     body: "Leaning toward growth means we'll favour funds with more equity exposure. That drives returns over time, but expect bigger swings on the way." },
+    balanced:   { title: "A foot in both camps",                        body: "A balanced priority lets us blend growth assets with stabilisers, diversifying so no single bad year dominates your experience." },
+    protection: { title: "Protection first",                            body: "We'll lean on funds with more bonds, cash-like holdings, and defensive assets. Expect steadier ground, and more modest long-term growth." },
+    _default:   { title: "Priorities shape the shortlist",              body: "Your answer here is one of the biggest levers in the match we'll show you." },
   },
   exclusions: {
-    _default:   { title: "Invest in line\nwith your values",                           body: "We'll filter the shortlist so the fund we match you to doesn't hold companies you'd rather avoid, no matter how profitable they look on paper." },
-    _any:       { title: "Exclusions\nrespected",                                       body: "The fund we shortlist will screen out the sectors you picked. If a perfect fit isn't available, we'll tell you, not quietly override your choice." },
-    _none:      { title: "Cast a wider net",                                           body: "Without exclusions, we can consider the full opportunity set, which usually means a broader, more diversified fund." },
+    _default:   { title: "Invest in line with your values",             body: "We'll filter the shortlist so the fund we match you to doesn't hold companies you'd rather avoid, no matter how profitable they look on paper." },
+    _any:       { title: "Exclusions respected",                        body: "The fund we shortlist will screen out the sectors you picked. If a perfect fit isn't available, we'll tell you, not quietly override your choice." },
+    _none:      { title: "Cast a wider net",                            body: "Without exclusions, we can consider the full opportunity set, which usually means a broader, more diversified fund." },
   },
   horizon: {
-    lt1:    { title: "Under a year is really\ncash territory",                         body: "For money you need within twelve months, protecting capital matters more than growing it. We'll lean heavily toward funds that behave more like a savings buffer than a long-term investment." },
-    "1to3": { title: "One to three years\nneeds gentle handling",                      body: "There's time for your money to work, but not enough to ride out a deep dip. We'll favour funds that dampen the swings while still aiming to beat cash." },
-    "3to5": { title: "For a three to five year horizon,\nwe stay closer to shore",     body: "Short horizons need different tools. We'll lean toward funds that protect your capital while still working harder than a savings account." },
-    "5to10":{ title: "Five to ten years\nis a useful window",                           body: "Long enough for growth assets to do their work, short enough that we won't ignore the downside. We'll aim for balanced exposure." },
-    gt10:   { title: "A long horizon\nchanges the maths",                              body: "Ten-plus years lets compounding do the heavy lifting. We can look past short-term noise and focus on funds built for the long game." },
-    _default: { title: "Time in the market\nbeats timing the market",                  body: "Whatever your horizon, we'll pick a fund that fits it, not one that fights it." },
+    lt1:    { title: "Under a year is cash territory",                  body: "For money you need within twelve months, protecting capital matters more than growing it. We'll lean heavily toward funds that behave more like a savings buffer than a long-term investment." },
+    "1to3": { title: "Gentle handling for a short window",              body: "There's time for your money to work, but not enough to ride out a deep dip. We'll favour funds that dampen the swings while still aiming to beat cash." },
+    "3to5": { title: "Closer to shore",                                 body: "Short horizons need different tools. We'll lean toward funds that protect your capital while still working harder than a savings account." },
+    "5to10":{ title: "A useful window",                                 body: "Long enough for growth assets to do their work, short enough that we won't ignore the downside. We'll aim for balanced exposure." },
+    gt10:   { title: "A long horizon changes the maths",                body: "Ten-plus years lets compounding do the heavy lifting. We can look past short-term noise and focus on funds built for the long game." },
+    _default: { title: "Time beats timing",                             body: "Whatever your horizon, we'll pick a fund that fits it, not one that fights it." },
   },
   risk: {
-    worried:   { title: "We'll stay on the\nmore protective side",                    body: "A 20% drop shouldn't be the reason you abandon a good plan. We'll favour funds that limit the downside, even if that caps some upside." },
-    neutral:   { title: "Cycles are normal\nWe'll lean into yours",                  body: "You're comfortable holding through volatility, which opens up funds with stronger long-term return potential but bumpier rides." },
-    confident: { title: "Volatility as\nopportunity",                                 body: "If a 20% drop looks like a sale, we can consider funds with higher growth potential, and meaningful swings along the way." },
-    _default:  { title: "Risk isn't a number\nIt's how you feel on a bad day",       body: "We'll pick a fund whose ups and downs you can actually live with." },
+    worried:   { title: "We'll stay protective",                        body: "A 20% drop shouldn't be the reason you abandon a good plan. We'll favour funds that limit the downside, even if that caps some upside." },
+    neutral:   { title: "Cycles are normal",                            body: "You're comfortable holding through volatility, which opens up funds with stronger long-term return potential but bumpier rides." },
+    confident: { title: "Volatility as opportunity",                    body: "If a 20% drop looks like a sale, we can consider funds with higher growth potential, and meaningful swings along the way." },
+    _default:  { title: "Risk isn't a number",                          body: "We'll pick a fund whose ups and downs you can actually live with." },
   },
   amount: {
-    _default:  { title: "Start where you're\ncomfortable",                            body: "The amount you begin with matters less than starting. You can top up, pause, or adjust at any time, this isn't locked in." },
+    _default:  { title: "Start where you're comfortable",               body: "The amount you begin with matters less than starting. You can top up, pause, or adjust at any time, this isn't locked in." },
   },
   values: {
-    _default:  { title: "A portfolio\nthat reflects you",                             body: "Your priorities shape the shortlist. We'll weight the match toward funds that align with what matters most to you." },
+    _default:  { title: "A portfolio that reflects you",                body: "Your priorities shape the shortlist. We'll weight the match toward funds that align with what matters most to you." },
   },
 };
 
@@ -193,7 +193,7 @@ const ReassuranceScreen = ({ onBack, onExit, onContinue, question, answer, progr
         <div className="content" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: 40 }}>
           <div>
           <div className="pill pill-on-primary" style={{ marginBottom: 16 }}>Our insight</div>
-          <h2 className="q-title" style={{ whiteSpace: "pre-line" }}>{copy.title}</h2>
+          <h2 className="q-title">{copy.title}</h2>
           <p className="q-sub" style={{ marginBottom: 24 }}>{copy.body}</p>
 
           <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 0", borderTop: "1px solid var(--color-secondary-975)" }}>

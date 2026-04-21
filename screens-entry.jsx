@@ -1,7 +1,7 @@
 // screens-entry.jsx — Home, Investments intro, and Help-me-pick intro
 
 // ------------ HOME SCREEN ------------
-const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMode = false }) => {
+const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings = [], loans = [], staticMode = false }) => {
   // Phases: "greeting" (first 1.2s) -> "networth" (fade swap) -> account rows stagger in.
   // Only play the intro once per session so coming back from the flow doesn't re-animate (feels flashy).
   const alreadySeen = (() => { try { return sessionStorage.getItem("inv_home_seen") === "1"; } catch { return false; } })();
@@ -18,15 +18,18 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [staticMode, alreadySeen]);
 
-  // Aggregate holdings into an ISA line
-  const isaTotal = holdings
-    .filter(h => h.frequency === "one-off")
-    .reduce((s, h) => s + (h.amount || 0), 0);
-  const monthlyTotal = holdings
-    .filter(h => h.frequency === "monthly")
-    .reduce((s, h) => s + (h.amount || 0), 0);
-  const hasHoldings = holdings.length > 0;
-  const netWorth = 245310.22 + isaTotal;
+  // Single source of truth: accounts store. Bank accounts are static;
+  // investment wrappers have a seeded base value plus anything added via
+  // the invest flow (from `holdings`), so the home screen stays in sync
+  // with the Lombard flow (same numbers, same accounts, no drift).
+  const bank = getBankAccounts();
+  const invAccts = getInvestmentAccounts(holdings);
+  const bankTotal = bank.reduce((s, a) => s + a.value, 0);
+  const invTotal = invAccts.reduce((s, a) => s + a.value, 0);
+  const hasHoldings = invAccts.length > 0;
+  const totalLoan = loans.reduce((s, l) => s + (l.amount || 0), 0);
+  const hasLoan = loans.length > 0;
+  const netWorth = bankTotal + invTotal - totalLoan;
 
   return (
     <div className="screen screen-home" data-screen-label="01 Home">
@@ -44,43 +47,74 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
 
         <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "0ms"}}>Savings accounts</div>
         <div className="list-group">
-          <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "60ms"}}>
-            <span className="listrow-body">
-              <span className="listrow-title" style={{fontSize: 16}}>Easy Access Savings</span>
-              <span className="listrow-sub">3.52% AER</span>
-            </span>
-            <span className="listrow-value"><span className="listrow-val">£82,140.00</span></span>
-            <ChevR/>
-          </button>
-          <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "120ms"}}>
-            <span className="listrow-body">
-              <span className="listrow-title" style={{fontSize: 16}}>Easy Access Cash ISA</span>
-              <span className="listrow-sub">3.74% AER</span>
-            </span>
-            <span className="listrow-value"><span className="listrow-val">£20,000.00</span></span>
-            <ChevR/>
-          </button>
+          {bank.map((a, i) => (
+            <button key={a.id} className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": `${60 + i * 60}ms`}}>
+              <span className="listrow-body">
+                <span className="listrow-title" style={{fontSize: 16}}>{a.title}</span>
+                <span className="listrow-sub">{a.sub}</span>
+              </span>
+              <span className="listrow-value"><span className="listrow-val">£{a.value.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></span>
+              <ChevR/>
+            </button>
+          ))}
         </div>
 
-        {hasHoldings && (
+        {hasHoldings && (() => {
+          const nonPension = invAccts.filter(a => a.wrapper !== "pension");
+          const pension    = invAccts.filter(a => a.wrapper === "pension");
+          const renderRow = (a, i, delayStart) => (
+            <button
+              key={a.id}
+              className={"listrow home-reveal" + (revealed ? " in" : "")}
+              style={{"--d": `${delayStart + i * 60}ms`}}
+              onClick={() => onOpenHolding && onOpenHolding(a.id)}
+            >
+              <span className="listrow-body">
+                <span className="listrow-title" style={{fontSize: 16}}>{a.title}</span>
+                <span className="listrow-sub">
+                  {a.holdings.length > 0
+                    ? <>{a.holdings.length} {a.holdings.length === 1 ? "holding" : "holdings"}{a.monthly > 0 && ` · +£${a.monthly.toLocaleString("en-GB")}/mo`}</>
+                    : a.sub}
+                </span>
+              </span>
+              <span className="listrow-value">
+                <span className="listrow-val">£{a.value.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              </span>
+              <ChevR/>
+            </button>
+          );
+          return (
+            <React.Fragment>
+              {nonPension.length > 0 && (
+                <React.Fragment>
+                  <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "200ms"}}>Investments</div>
+                  <div className="list-group">
+                    {nonPension.map((a, i) => renderRow(a, i, 240))}
+                  </div>
+                </React.Fragment>
+              )}
+              {pension.length > 0 && (
+                <React.Fragment>
+                  <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "260ms"}}>Pension</div>
+                  <div className="list-group">
+                    {pension.map((a, i) => renderRow(a, i, 300))}
+                  </div>
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          );
+        })()}
+
+        {hasLoan && (
           <React.Fragment>
-            <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "200ms"}}>Investments</div>
+            <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "230ms"}}>Borrowing</div>
             <div className="list-group">
-              <button
-                className={"listrow home-reveal" + (revealed ? " in" : "")}
-                style={{"--d": "240ms"}}
-                onClick={onOpenHolding}
-              >
+              <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "250ms"}}>
                 <span className="listrow-body">
-                  <span className="listrow-title" style={{fontSize: 16}}>Stocks & Shares ISA</span>
-                  <span className="listrow-sub">
-                    {holdings.length} {holdings.length === 1 ? "holding" : "holdings"}
-                    {monthlyTotal > 0 && ` · +£${monthlyTotal.toLocaleString("en-GB")}/mo`}
-                  </span>
+                  <span className="listrow-title" style={{fontSize: 16}}>Lombard loan</span>
+                  <span className="listrow-sub">{LOMBARD_APR.toFixed(2)}% APR · secured against your portfolio</span>
                 </span>
-                <span className="listrow-value">
-                  <span className="listrow-val">£{isaTotal.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                </span>
+                <span className="listrow-value"><span className="listrow-val">−£{totalLoan.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></span>
                 <ChevR/>
               </button>
             </div>
@@ -99,7 +133,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
             </span>
             <ChevR/>
           </button>
-          <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "380ms"}}>
+          <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "380ms"}} onClick={onOpenBorrow}>
             <span className="listrow-icon" style={{ background: "transparent", borderRadius: 0, overflow: "visible" }}>
               <img src="assets/icons/home-lending.png" alt="" style={{ width: 44, height: 44, objectFit: "contain" }}/>
             </span>
@@ -118,7 +152,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, holdings = [], staticMod
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8M5 10v10h14V10" strokeWidth="1.8"/></svg>
           <span className="tab-label">Home</span>
         </button>
-        <button className="tab">
+        <button className="tab" onClick={onOpenInvestments}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V4M16 20v-8M22 20v-4" strokeWidth="1.8" strokeLinecap="round"/></svg>
           <span className="tab-label">Invest</span>
         </button>
@@ -409,9 +443,9 @@ const InvestmentsLanding = ({ onBack, onContinue }) => {
   return (
     <div className="screen" data-screen-label="02 Investments landing">
       <div className="phone-body carousel-body">
-        <div className="topbar dark carousel-topbar">
+        <div className="topbar carousel-topbar">
           <button className="topbar-back" onClick={() => slide > 0 ? goto(slide - 1) : onBack()} aria-label="Back">
-            <ArrowLeft color="#fff"/>
+            <ArrowLeft color="#232323"/>
           </button>
           <div className="carousel-dots">
             {LANDING_SLIDES.map((_, i) => (
@@ -469,7 +503,7 @@ const WhyInvestSheet = ({ onContinue, onClose }) => (
         <h2 style={{ fontSize: 30, lineHeight: "34px", letterSpacing: "-1px", marginBottom: 14 }}>
           Investing is different from saving
         </h2>
-        <p style={{ color: "var(--fg-2)", marginBottom: 24, textWrap: "pretty" }}>
+        <p style={{ color: "var(--fg-2)", marginBottom: 24 }}>
           With savings, your money is protected and your returns are predictable. With investments, you accept some risk in exchange for the possibility of higher returns over time.
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 20 }}>
@@ -494,5 +528,80 @@ const WhyInvestSheet = ({ onContinue, onClose }) => (
     </div>
   </div>
 );
+
+// ------------ ACCOUNT / HOLDING DETAIL ------------
+// Shown when the user taps an investment wrapper on the home screen. Lists
+// every holding in that wrapper (seeded + any bought in-app) with its value
+// and 1-year performance. Styled to match the rest of the app.
+window.HoldingDetail = ({ accountId, holdings = [], onBack }) => {
+  const accounts = getInvestmentAccounts(holdings);
+  const account = accounts.find(a => a.id === accountId) || accounts[0];
+  if (!account) {
+    return (
+      <div className="screen" data-screen-label="Account detail (empty)">
+        <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
+          <TopBar onBack={onBack}/>
+          <div className="content">
+            <h2 className="q-title">Nothing here yet</h2>
+            <p className="q-sub">You don't have any investments in this account.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const perfMonth = (account.value * 0.012); // illustrative monthly perf ~1.2%
+
+  return (
+    <div className="screen" data-screen-label={"Account · " + account.title}>
+      <div className="phone-body" style={{ display: "flex", flexDirection: "column", background: "var(--color-secondary-100)" }}>
+        <TopBar onBack={onBack} title={account.title}/>
+
+        {/* Balance hero — paper card */}
+        <div style={{ margin: "12px 16px 8px", padding: "24px 24px 28px", background: "var(--color-secondary-200)", borderRadius: 12, textAlign: "center" }}>
+          <div style={{ fontSize: 13, color: "var(--color-secondary-500, #66969C)", letterSpacing: 1, fontWeight: 600, textTransform: "uppercase" }}>
+            {account.sub}
+          </div>
+          <div style={{ fontSize: 36, fontFamily: "var(--font-display), Georgia, serif", fontWeight: 500, color: "#003036", marginTop: 8, letterSpacing: -1 }}>
+            £{account.value.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </div>
+          <div style={{ fontSize: 14, color: "#1F7A53", marginTop: 4 }}>
+            ▲ £{perfMonth.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} this month
+          </div>
+          {account.monthly > 0 && (
+            <div style={{ fontSize: 12, color: "var(--color-secondary-500, #66969C)", marginTop: 6 }}>
+              +£{account.monthly.toLocaleString("en-GB")}/mo direct debit
+            </div>
+          )}
+        </div>
+
+        {/* Holdings list */}
+        <div className="section-heading" style={{ fontSize: 16, padding: "24px 16px 12px" }}>
+          Holdings
+        </div>
+        <div className="list-group">
+          {account.holdings.map(h => (
+            <div key={h.id} className="listrow" style={{ cursor: "default", background: "var(--color-secondary-200)" }}>
+              <span className="listrow-body">
+                <span className="listrow-title" style={{ fontSize: 15 }}>{h.name}</span>
+                <span className="listrow-sub">
+                  {h.ticker ? h.ticker : (h.frequency === "monthly" ? "Monthly direct debit" : "One-off")}
+                  {h.oneYr != null && <> · <span style={{ color: h.oneYr >= 0 ? "#1F7A53" : "#A33636" }}>{h.oneYr >= 0 ? "▲" : "▼"} {Math.abs(h.oneYr).toFixed(1)}% 1y</span></>}
+                </span>
+              </span>
+              <span className="listrow-value">
+                <span className="listrow-val">£{h.amount.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ padding: "16px 24px 24px", fontSize: 12, color: "var(--color-secondary-500, #66969C)", lineHeight: 1.4 }}>
+          The value of your investments can go down as well as up. Past performance is not a guide to future returns. 1y figures are illustrative.
+        </div>
+      </div>
+    </div>
+  );
+};
 
 Object.assign(window, { HomeScreen, InvestmentsLanding, InvestmentsPicker, WhyInvestSheet });
