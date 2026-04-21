@@ -22,7 +22,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
  // investment wrappers have a seeded base value plus anything added via
  // the invest flow (from `holdings`), so the home screen stays in sync
  // with the Lombard flow (same numbers, same accounts, no drift).
- const bank = getBankAccounts();
+ const bank = getBankAccounts(loans);
  const invAccts = getInvestmentAccounts(holdings);
  const bankTotal = bank.reduce((s, a) => s + a.value, 0);
  const invTotal = invAccts.reduce((s, a) => s + a.value, 0);
@@ -123,7 +123,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
 
  <div className={"section-heading home-reveal" + (revealed ? " in" : "")} style={{fontSize: 16, padding: "32px 16px 16px", "--d": "260ms"}}>Do more with Monument</div>
  <div className="list-group">
- <button className={"listrow highlight home-reveal" + (revealed ? " in" : "")} style={{"--d": "320ms", background: "var(--color-secondary-200)"}} onClick={onOpenInvestments}>
+ <button className={"listrow highlight home-reveal" + (revealed ? " in" : "")} style={{"--d": "320ms", background: "var(--color-secondary-200)", padding: 24, gap: 16}} onClick={onOpenInvestments}>
  <span className="listrow-icon" style={{ background: "transparent", borderRadius: 0, overflow: "visible" }}>
  <img src="assets/icons/home-investments.png" alt="" style={{ width: 44, height: 44, objectFit: "contain" }}/>
  </span>
@@ -133,7 +133,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
  </span>
  <ChevR/>
  </button>
- <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "380ms"}} onClick={onOpenBorrow}>
+ <button className={"listrow home-reveal" + (revealed ? " in" : "")} style={{"--d": "380ms", padding: 24, gap: 16}} onClick={onOpenBorrow}>
  <span className="listrow-icon" style={{ background: "transparent", borderRadius: 0, overflow: "visible" }}>
  <img src="assets/icons/home-lending.png" alt="" style={{ width: 44, height: 44, objectFit: "contain" }}/>
  </span>
@@ -560,11 +560,13 @@ window.HoldingDetail = ({ accountId, holdings = [], onBack }) => {
 
  return (
  <div className="screen" data-screen-label={"Account · " + account.title}>
- <div className="phone-body" style={{ display: "flex", flexDirection: "column", background: "var(--color-secondary-100)" }}>
+ <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column", background: "var(--color-secondary-100)" }}>
  <TopBar onBack={onBack} title={account.title}/>
 
+ <div className="content" style={{ flex: 1, minHeight: 0, overflowY: "auto", paddingBottom: 24 }}>
+
  {/* Balance hero - paper card */}
- <div style={{ margin: "12px 16px 8px", padding: "24px 24px 28px", background: "var(--color-secondary-200)", borderRadius: 12, textAlign: "center" }}>
+ <div style={{ margin: "12px 16px 8px", padding: "24px 24px 28px", background: "var(--color-secondary-200)", textAlign: "center" }}>
  <div style={{ fontSize: 14, color: "var(--color-secondary-500, #66969C)", letterSpacing: 1, fontWeight: 600, textTransform: "uppercase" }}>
  {account.sub}
  </div>
@@ -587,7 +589,7 @@ window.HoldingDetail = ({ accountId, holdings = [], onBack }) => {
  </div>
  <div className="list-group">
  {account.holdings.map(h => (
- <div key={h.id} className="listrow" style={{ cursor: "default", background: "var(--color-secondary-200)" }}>
+ <div key={h.id} className="listrow" style={{ cursor: "default", background: "var(--color-secondary-200)", boxSizing: "border-box", width: "100%" }}>
  <span className="listrow-body">
  <span className="listrow-title" style={{ fontSize: 16 }}>{h.name}</span>
  <span className="listrow-sub">
@@ -604,6 +606,7 @@ window.HoldingDetail = ({ accountId, holdings = [], onBack }) => {
 
  <div style={{ padding: "16px 24px 24px", fontSize: 14, color: "var(--color-secondary-500, #66969C)", lineHeight: 1.4 }}>
  The value of your investments can go down as well as up. Past performance is not a guide to future returns. 1y figures are illustrative.
+ </div>
  </div>
  </div>
  </div>

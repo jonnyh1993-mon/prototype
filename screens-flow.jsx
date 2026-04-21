@@ -380,7 +380,7 @@ const AmountScreen = ({ onBack, onExit, onContinue, value, onChange, progress })
  <div className="caption1" style={{ color: "var(--fg-2)" }}>
  At a 6.5% average annual return, net of fees: <b style={{ color: "var(--fg-1)" }}>{fmtGBP(Math.round(value * Math.pow(1.065, 10)))}</b>
  </div>
- <div className="caption2" style={{ color: "var(--fg-3)", marginTop: 6 }}>
+ <div className="caption2" style={{ color: "var(--fg-2)", marginTop: 6 }}>
  An illustrative estimate, not a forecast.
  </div>
  </div>

@@ -73,10 +73,10 @@ const MatchRing = ({ pct, size = 60 }) => {
  gap: 1,
  }}
  >
- <div style={{ font: "500 15px/16px var(--font-display)", letterSpacing: "-0.3px" }}>
- {Math.round(pct)}<span style={{ fontSize: 11, letterSpacing: 0, marginLeft: 0.5 }}>%</span>
+ <div style={{ font: "500 16px/16px var(--font-display)", letterSpacing: "-0.3px" }}>
+ {Math.round(pct)}<span style={{ fontSize: 14, letterSpacing: 0, marginLeft: 0.5 }}>%</span>
  </div>
- <div style={{ font: "500 9px/10px var(--font-body)", letterSpacing: "0.6px", textTransform: "uppercase", color: "var(--fg-3)" }}>
+ <div style={{ font: "500 9px/10px var(--font-body)", letterSpacing: "0.6px", textTransform: "uppercase", color: "var(--fg-2)" }}>
  match
  </div>
  </div>
@@ -197,7 +197,7 @@ const ResultScreen = ({ answers, onBack, onRestart, onPickAlt, onInvest, onOpenD
  <div style={{ font: "500 28px/32px var(--font-display)", color: "var(--fg-1)", letterSpacing: "-0.5px" }}>
  {fmtPct(m.fund.fiveYr, 1)}
  </div>
- <div style={{ font: "400 13px/17px var(--font-body)", color: "var(--fg-3)", marginTop: 4 }}>
+ <div style={{ font: "400 14px/17px var(--font-body)", color: "var(--fg-2)", marginTop: 4 }}>
  Average return per year
  </div>
  </div>
@@ -209,7 +209,7 @@ const ResultScreen = ({ answers, onBack, onRestart, onPickAlt, onInvest, onOpenD
  border: "1px solid var(--color-primary-500)",
  color: "var(--color-primary-600)",
  padding: "14px 18px",
- font: "600 15px/18px var(--font-body)",
+ font: "600 16px/18px var(--font-body)",
  fontFamily: "inherit",
  cursor: "pointer",
  textAlign: "center",
@@ -223,7 +223,7 @@ const ResultScreen = ({ answers, onBack, onRestart, onPickAlt, onInvest, onOpenD
  </div>
 
  <div style={{ padding: "0 24px 32px" }}>
- <p style={{ font: "400 13px/18px var(--font-body)", color: "var(--fg-3)", textWrap: "pretty" }}>
+ <p style={{ font: "400 14px/18px var(--font-body)", color: "var(--fg-2)", textWrap: "pretty" }}>
  Capital at risk. Past performance isn't a guide to future results. You could get back less than you invest.
  </p>
  </div>
@@ -721,15 +721,15 @@ const EligibilityScreen = ({ onBack, onContinue, amount }) => {
  )}
  </span>
  <span style={{ flex: 1 }}>
- <span style={{ display: "block", font: "600 15px/20px var(--font-body)", color: "var(--fg-1)" }}>{it.label}</span>
- <span style={{ display: "block", font: "400 13px/18px var(--font-body)", color: "var(--fg-2)", marginTop: 4 }}>{it.note}</span>
+ <span style={{ display: "block", font: "600 16px/20px var(--font-body)", color: "var(--fg-1)" }}>{it.label}</span>
+ <span style={{ display: "block", font: "400 14px/18px var(--font-body)", color: "var(--fg-2)", marginTop: 4 }}>{it.note}</span>
  </span>
  </button>
  ))}
  </div>
 
  <div style={{ padding: "8px 24px 32px" }}>
- <p style={{ font: "400 12px/17px var(--font-body)", color: "var(--fg-3)", textWrap: "pretty" }}>
+ <p style={{ font: "400 14px/17px var(--font-body)", color: "var(--fg-2)", textWrap: "pretty" }}>
  We ask this to meet FCA rules on restricted investments. By continuing you confirm the statements above are accurate.
  </p>
  </div>
@@ -834,7 +834,7 @@ const AmountInvestScreen = ({ onBack, onContinue, fundName, defaultAmount = 5000
  />
  {frequency === "monthly" && <span className="amount-input-suffix">/ month</span>}
  </div>
- <div style={{ font: "400 13px/18px var(--font-body)", color: "var(--fg-3)", marginTop: 8 }}>
+ <div style={{ font: "400 14px/18px var(--font-body)", color: "var(--fg-2)", marginTop: 8 }}>
  Minimum {fmtGBP(effectiveMin)}{frequency === "monthly" ? " per month" : ""}.
  </div>
  </div>
@@ -868,7 +868,7 @@ const AmountInvestScreen = ({ onBack, onContinue, fundName, defaultAmount = 5000
  </div>
  </div>
  {insufficient && (
- <div style={{ marginTop: 10, font: "400 13px/18px var(--font-body)", color: "#A04040" }}>
+ <div style={{ marginTop: 10, font: "400 14px/18px var(--font-body)", color: "#A04040" }}>
  You don't have enough in this account to cover a one-off investment of this size.
  </div>
  )}
@@ -958,7 +958,7 @@ const ConfirmScreen = ({ onBack, onHome, fundName, amount, frequency = "one-off"
  borderBottom: i < arr.length - 1 ? "1px solid rgba(0, 48, 54, 0.08)" : "none",
  }}
  >
- <span style={{ font: "400 14px/20px var(--font-body)", color: "var(--fg-3)" }}>{k}</span>
+ <span style={{ font: "400 14px/20px var(--font-body)", color: "var(--fg-2)" }}>{k}</span>
  <span style={{ font: "500 14px/20px var(--font-body)", color: "var(--fg-1)", textAlign: "right" }}>{v}</span>
  </div>
  ))}
@@ -974,100 +974,4 @@ const ConfirmScreen = ({ onBack, onHome, fundName, amount, frequency = "one-off"
  );
 };
 
-// ---- Holding detail (Stocks & Shares ISA drill-in from Home) ----
-const HoldingDetail = ({ holdings = [], onBack }) => {
- const total = holdings.reduce((s, h) => (h.frequency === "one-off" ? s + (h.amount || 0) : s), 0);
- const monthly = holdings.reduce((s, h) => (h.frequency === "monthly" ? s + (h.amount || 0) : s), 0);
-
- // Group holdings by fundId and aggregate
- const byFund = {};
- holdings.forEach(h => {
- const k = h.fundId;
- if (!byFund[k]) byFund[k] = { fundId: k, fundName: h.fundName, oneOff: 0, monthly: 0, count: 0, last: 0 };
- byFund[k].count += 1;
- if (h.frequency === "monthly") byFund[k].monthly += (h.amount || 0);
- else byFund[k].oneOff += (h.amount || 0);
- if ((h.placedAt || 0) > byFund[k].last) byFund[k].last = h.placedAt || 0;
- });
- const rows = Object.values(byFund).sort((a, b) => b.last - a.last);
-
- const fmtDate = (ts) => {
- if (!ts) return "";
- const d = new Date(ts);
- return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
- };
-
- return (
- <div className="screen" data-screen-label="16 Holding detail">
- <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
- <TopBar onBack={onBack}/>
-
- <div style={{ padding: "8px 24px 0" }}>
- <div className="pill pill-neutral" style={{ marginBottom: 12 }}>Stocks & Shares ISA</div>
- <div style={{ font: "400 13px/18px var(--font-body)", color: "var(--fg-3)", marginBottom: 2 }}>Total invested</div>
- <div style={{ font: "500 40px/44px var(--font-display)", letterSpacing: "-1px", color: "var(--fg-1)" }}>
- {fmtGBP(total)}
- </div>
- {monthly > 0 && (
- <div style={{ font: "400 14px/20px var(--font-body)", color: "var(--fg-2)", marginTop: 6 }}>
- + {fmtGBP(monthly)} / month recurring
- </div>
- )}
- </div>
-
- <div style={{ padding: "24px 24px 12px", font: "500 12px/16px var(--font-body)", color: "var(--fg-3)", textTransform: "uppercase", letterSpacing: "0.8px" }}>
- Holdings
- </div>
-
- <div style={{ padding: "0 24px 24px", display: "flex", flexDirection: "column", gap: 0 }}>
- {rows.map((r, i) => (
- <div
- key={r.fundId}
- style={{
- display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12,
- padding: "16px 0",
- borderTop: "1px solid rgba(0, 48, 54, 0.12)",
- borderBottom: i === rows.length - 1 ? "1px solid rgba(0, 48, 54, 0.12)" : "none",
- }}
- >
- <div style={{ flex: 1, minWidth: 0 }}>
- <div style={{ font: "500 16px/22px var(--font-body)", color: "var(--fg-1)", letterSpacing: "-0.2px", textWrap: "pretty" }}>
- {r.fundName}
- </div>
- <div style={{ font: "400 13px/18px var(--font-body)", color: "var(--fg-3)", marginTop: 2 }}>
- {r.count} {r.count === 1 ? "order" : "orders"}
- {r.monthly > 0 && ` · ${fmtGBP(r.monthly)}/mo`}
- {r.last ? ` · last ${fmtDate(r.last)}` : ""}
- </div>
- </div>
- <div style={{ textAlign: "right", flexShrink: 0 }}>
- <div style={{ font: "500 16px/22px var(--font-body)", color: "var(--fg-1)" }}>
- {fmtGBP(r.oneOff)}
- </div>
- {r.monthly > 0 && r.oneOff === 0 && (
- <div style={{ font: "400 12px/16px var(--font-body)", color: "var(--fg-3)" }}>Monthly only</div>
- )}
- </div>
- </div>
- ))}
- </div>
-
- <div style={{ padding: "0 24px 32px" }}>
- <div
- style={{
- background: "var(--color-secondary-200, #F5F1E8)",
- border: "1px solid rgba(0, 48, 54, 0.08)",
- padding: "14px 16px",
- font: "400 13px/18px var(--font-body)",
- color: "var(--fg-2)",
- }}
- >
- Settled holdings will show a live value within 48 hours of your first purchase. Future contributions and monthly payments appear here automatically.
- </div>
- </div>
- </div>
- </div>
- );
-};
-
-Object.assign(window, { ResultScreen, FundDetail, EligibilityScreen, AmountInvestScreen, ConfirmScreen, HoldingDetail, buildReasons });
+Object.assign(window, { ResultScreen, FundDetail, EligibilityScreen, AmountInvestScreen, ConfirmScreen, ConfettiTickLottie, buildReasons });

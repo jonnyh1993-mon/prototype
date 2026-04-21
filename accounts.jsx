@@ -52,7 +52,14 @@ const INVESTMENT_WRAPPERS = [
 // separate product journey.)
 const holdingWrapper = (h) => (h.fundId === "pe" ? "gia" : "isa");
 
-const getBankAccounts = () => BANK_ACCOUNTS.slice();
+// Confirmed Lombard drawdowns land in Easy Access Savings immediately.
+// Pass the app's `loans` array and we augment the EA Savings balance by the total.
+const getBankAccounts = (loans = []) => {
+ const drawdownTotal = loans.reduce((s, l) => s + (l.amount || 0), 0);
+ return BANK_ACCOUNTS.map(a => (
+ a.id === "savings" ? { ...a, value: a.value + drawdownTotal } : { ...a }
+ ));
+};
 
 const getInvestmentAccounts = (holdings = []) => {
  return INVESTMENT_WRAPPERS.map(w => {
@@ -95,8 +102,8 @@ const getEligibleAssets = (holdings = []) => {
  return [...bank, ...inv];
 };
 
-const getAllAccounts = (holdings = []) => ({
- bank: getBankAccounts(),
+const getAllAccounts = (holdings = [], loans = []) => ({
+ bank: getBankAccounts(loans),
  investments: getInvestmentAccounts(holdings),
 });
 

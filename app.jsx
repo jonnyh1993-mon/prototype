@@ -114,7 +114,7 @@ function App() {
  onOpenInvestments={openInvestments}
  holdings={holdings}
  loans={loans}
- onOpenHolding={() => setRoute({ name: "holding-detail" })}
+ onOpenHolding={(accountId) => setRoute({ name: "holding-detail", accountId })}
  onOpenBorrow={() => setRoute({ name: "lombard-intro" })}
  />;
 
@@ -293,6 +293,7 @@ function App() {
 
  case "holding-detail":
  return <HoldingDetail
+ accountId={route.accountId}
  holdings={holdings}
  onBack={() => setRoute({ name: "home" })}
  />;
@@ -390,6 +391,9 @@ function App() {
  case "lombard-success":
  return <LombardSuccess
  amount={lombard.amount}
+ term={lombard.term}
+ purpose={lombard.purpose}
+ onBack={() => setRoute({ name: "lombard-review" })}
  onHome={() => {
  setRoute({ name: "home" });
  setLombard(INITIAL_LOMBARD);

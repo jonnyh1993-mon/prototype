@@ -20,7 +20,7 @@ const BENCH_APR = 9.9;
 const LOMBARD_PURPOSES = [
  { id: "home-reno", title: "Home renovation", sub: "Kitchen, extension, refurbishment" },
  { id: "property", title: "Property deposit or bridging",sub: "Complete a purchase before you sell" },
- { id: "car", title: "New car", sub: "Avoid dealer finance APRs" },
+ { id: "car", title: "Car finance", sub: "Avoid dealer finance APRs" },
  { id: "opportunity", title: "Investment opportunity", sub: "Deploy capital without selling down" },
  { id: "consolidate", title: "Consolidate debt", sub: "Pay off higher-APR balances" },
  { id: "tax", title: "Tax bill", sub: "Fund a liability without disturbing investments" },
@@ -231,35 +231,33 @@ const LombardCapacity = ({ eligibleAssets = [], onBack, onExit, onContinue }) =>
  <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
  <TopBar onBack={onBack} onClose={onExit || onBack} closeLabel="Exit"/>
  <div className="content">
- <div className="lombard-capacity-hero">
- <div className="lombard-capacity-label">YOU COULD BORROW UP TO</div>
- <div className="lombard-capacity-amount">{fmtGBP(capacity)}</div>
- <div className="lombard-capacity-sub">
+ <div className="lombard-capacity-hero" style={{ background: "var(--color-secondary-200)", padding: "32px 24px", textAlign: "center", margin: "8px 0 24px" }}>
+ <div className="lombard-capacity-label" style={{ color: "var(--fg-1)" }}>YOU COULD BORROW UP TO</div>
+ <div className="lombard-capacity-amount" style={{ color: "var(--fg-1)" }}>{fmtGBP(capacity)}</div>
+ <div className="lombard-capacity-sub" style={{ color: "var(--fg-1)" }}>
  Based on 50% of your eligible assets at Monument.
  </div>
  </div>
 
  <div className="lombard-capacity-section">
  <div className="lombard-capacity-section-head">
- <h3 className="lombard-capacity-section-title">Eligible assets</h3>
- <div className="lombard-capacity-section-count">{eligibleAssets.length} account{eligibleAssets.length === 1 ? "" : "s"}</div>
+ <h3 className="lombard-capacity-section-title" style={{ color: "var(--fg-1)" }}>Eligible assets</h3>
+ <div className="lombard-capacity-section-count" style={{ color: "var(--fg-1)" }}>{eligibleAssets.length} account{eligibleAssets.length === 1 ? "" : "s"}</div>
  </div>
- <div className="lombard-capacity-list">
+ <div className="lombard-capacity-list" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
  {eligibleAssets.map(a => (
- <div className="lombard-capacity-row" key={a.id}>
- <div className="lombard-capacity-row-main">
- <div className="lombard-capacity-row-title">{a.title}</div>
- <div className="lombard-capacity-row-sub">{a.sub}</div>
+ <div className="lombard-capacity-row" key={a.id} style={{ background: "var(--color-secondary-200)", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+ <div className="lombard-capacity-row-main" style={{ flex: 1, minWidth: 0 }}>
+ <div className="lombard-capacity-row-title" style={{ color: "var(--fg-1)" }}>{a.title}</div>
  </div>
- <div className="lombard-capacity-row-amount">{fmtGBP(a.value, 2)}</div>
+ <div className="lombard-capacity-row-amount" style={{ flexShrink: 0, color: "var(--fg-1)" }}>{fmtGBP(a.value, 2)}</div>
  </div>
  ))}
- <div className="lombard-capacity-divider"/>
- <div className="lombard-capacity-row total">
- <div className="lombard-capacity-row-main">
- <div className="lombard-capacity-row-title">Total eligible</div>
+ <div className="lombard-capacity-row total" style={{ background: "var(--color-secondary-200)", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginTop: 4 }}>
+ <div className="lombard-capacity-row-main" style={{ flex: 1, minWidth: 0 }}>
+ <div className="lombard-capacity-row-title" style={{ color: "var(--fg-1)" }}>Total eligible</div>
  </div>
- <div className="lombard-capacity-row-amount">{fmtGBP(total, 2)}</div>
+ <div className="lombard-capacity-row-amount" style={{ flexShrink: 0, color: "var(--fg-1)" }}>{fmtGBP(total, 2)}</div>
  </div>
  </div>
  </div>
@@ -284,7 +282,7 @@ const LombardPurpose = ({ value, onChange, onBack, onExit, onContinue }) => (
  <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
  <TopBar onBack={onBack} onClose={onExit || onBack} closeLabel="Exit"/>
  <div className="content">
- <h2 className="q-title">What would you use it for?</h2>
+ <h2 className="q-title">What is the purpose of your loan?</h2>
  <p className="q-sub">Helps us tailor your credit line and confirm suitability.</p>
  <div>
  {LOMBARD_PURPOSES.map(p => (
@@ -405,20 +403,20 @@ const LombardEligibility = ({ onBack, onExit, onContinue }) => (
 
  <ul className="lombard-risk-list">
  <li>
- <div className="lombard-risk-title">Your pledged assets secure the credit line</div>
- <div className="lombard-risk-body">If their value falls significantly, we may ask you to pledge more or reduce your balance ("margin call").</div>
+ <div className="lombard-risk-title" style={{ color: "var(--fg-1)" }}>Your pledged assets secure the credit line</div>
+ <div className="lombard-risk-body" style={{ fontSize: 16, lineHeight: 1.5 }}>If their value falls significantly, we may ask you to pledge more or reduce your balance ("margin call").</div>
  </li>
  <li>
- <div className="lombard-risk-title">The rate is variable</div>
- <div className="lombard-risk-body">Tracks the Bank of England base rate plus a 1.5% margin. If base rate rises, interest rises with it.</div>
+ <div className="lombard-risk-title" style={{ color: "var(--fg-1)" }}>The rate is variable</div>
+ <div className="lombard-risk-body" style={{ fontSize: 16, lineHeight: 1.5 }}>Tracks the Bank of England base rate plus a 1.5% margin. If base rate rises, interest rises with it.</div>
  </li>
  <li>
- <div className="lombard-risk-title">Pledged assets are locked</div>
- <div className="lombard-risk-body">You keep ownership and upside, but can't sell, withdraw or transfer pledged holdings while the credit line is open.</div>
+ <div className="lombard-risk-title" style={{ color: "var(--fg-1)" }}>Pledged assets are locked</div>
+ <div className="lombard-risk-body" style={{ fontSize: 16, lineHeight: 1.5 }}>You keep ownership and upside, but can't sell, withdraw or transfer pledged holdings while the credit line is open.</div>
  </li>
  <li>
- <div className="lombard-risk-title">Capital at risk</div>
- <div className="lombard-risk-body">If you can't repay, Monument may sell pledged assets to recover the balance. This could trigger a CGT event.</div>
+ <div className="lombard-risk-title" style={{ color: "var(--fg-1)" }}>Capital at risk</div>
+ <div className="lombard-risk-body" style={{ fontSize: 16, lineHeight: 1.5 }}>If you can't repay, Monument may sell pledged assets to recover the balance. This could trigger a CGT event.</div>
  </li>
  </ul>
  </div>
@@ -436,23 +434,29 @@ const LombardApproved = ({ eligibleAssets = [], pledged, onContinue }) => {
 
  return (
  <div className="screen" data-screen-label="L06 Approved">
- <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column", background: "var(--color-secondary-200)" }}>
- <div className="content" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", paddingTop: 32 }}>
- <div className="lombard-success-mark">
- <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
- <circle cx="28" cy="28" r="27" stroke="#003036" strokeWidth="1.5"/>
- <path d="M17 29l8 8 15-18" stroke="#003036" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
- </svg>
+ <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
+ <TopBar/>
+ <div className="content" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: 40, textAlign: "center", alignItems: "center" }}>
+ <div style={{ width: "100%" }}>
+ <div style={{ margin: "0 auto 12px", display: "flex", alignItems: "center", justifyContent: "center" }} aria-hidden="true">
+ <ConfettiTickLottie size={220}/>
  </div>
- <div className="lombard-success-eyebrow">CREDIT LINE OPEN</div>
- <h1 className="lombard-success-title">{fmtGBP(capacity)}<br/>ready to use.</h1>
- <p className="lombard-success-sub" style={{ marginBottom: 18 }}>
- Your {pledged.length} pledged {pledged.length === 1 ? "holding is" : "holdings are"} now locked
- as collateral. Draw down whenever you need it - interest only accrues on what you use.
+ <h2 className="q-title" style={{ textAlign: "center", margin: "24px 0", fontSize: 30, lineHeight: 1.2 }}>Your credit line is open</h2>
+ <p className="q-sub" style={{ marginBottom: 24, textAlign: "center" }}>
+ <b style={{ color: "var(--fg-1)" }}>{fmtGBP(capacity)}</b> is ready to draw down. Your {pledged.length} pledged {pledged.length === 1 ? "holding is" : "holdings are"} now locked as collateral. Interest only accrues on what you use.
  </p>
- <div className="lombard-approved-meta">
- <div><span>Rate</span><strong>{LOMBARD_APR.toFixed(2)}% APR</strong></div>
- <div><span>Pledged</span><strong>{fmtGBP(totalPledged, 2)}</strong></div>
+ <div style={{ background: "var(--color-secondary-200, #F5F1E8)", border: "1px solid rgba(0, 48, 54, 0.08)", padding: "4px 16px" }}>
+ {[
+ ["Credit line", fmtGBP(capacity)],
+ ["Rate", `${LOMBARD_APR.toFixed(2)}% APR`],
+ ["Pledged collateral", fmtGBP(totalPledged, 2)],
+ ].map(([k, v], i, arr) => (
+ <div key={k} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "16px 0", borderBottom: i < arr.length - 1 ? "1px solid rgba(0, 48, 54, 0.08)" : "none" }}>
+ <span style={{ font: "400 16px/20px var(--font-body)", color: "var(--fg-2)" }}>{k}</span>
+ <span style={{ font: "500 15px/20px var(--font-body)", color: "var(--fg-1)", textAlign: "right" }}>{v}</span>
+ </div>
+ ))}
+ </div>
  </div>
  </div>
  <div className="bg-group">
@@ -479,14 +483,13 @@ const LombardDrawdown = ({ eligibleAssets = [], value, onChange, pledged, onBack
  <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
  <TopBar onBack={onBack} onClose={onExit || onBack} closeLabel="Exit"/>
  <div className="content">
- <div className="pill pill-stone" style={{ marginBottom: 14 }}>Drawdown</div>
  <h2 className="q-title" style={{ marginBottom: 4 }}>How much do you want to draw down right now?</h2>
  <p className="q-sub" style={{ marginBottom: 0 }}>
  Interest only accrues on what you use. You can draw again from your credit line anytime.
  </p>
 
  <div className="amount-display">{fmtGBP(v)}</div>
- <div className="amount-sub">of {fmtGBP(capacity)} available</div>
+ <div className="amount-sub" style={{ fontSize: 16 }}>of {fmtGBP(capacity)} available</div>
 
  <div style={{ padding: "0 8px" }}>
  <div className="slider-track">
@@ -500,25 +503,25 @@ const LombardDrawdown = ({ eligibleAssets = [], value, onChange, pledged, onBack
  />
  </div>
  <div className="slider-labels">
- <span>{fmtGBP(min)}</span>
- <span>{fmtGBP(max)}</span>
+ <span style={{ fontSize: 16 }}>{fmtGBP(min)}</span>
+ <span style={{ fontSize: 16 }}>{fmtGBP(max)}</span>
  </div>
  </div>
 
  <div className="bucket-chips">
  {presets.map(p => (
- <button key={p} className={"chip" + (v === p ? " active" : "")} onClick={() => onChange(p)}>
+ <button key={p} className={"chip" + (v === p ? " active" : "")} style={{ fontSize: 16 }} onClick={() => onChange(p)}>
  {fmtGBP(p)}
  </button>
  ))}
  </div>
 
- <div className="lombard-collateral-hint">
- Funds land in your Easy Access Savings account within 1 working day.
+ <div className="lombard-collateral-hint" style={{ fontSize: 16, textAlign: "center", padding: "16px 14px" }}>
+ Funds will be available immediately
  </div>
  </div>
  <div className="bg-group">
- <Button label="Continue" variant="primary" onClick={onContinue} showArrow/>
+ <Button label="Choose a repayment period" variant="primary" onClick={onContinue} showArrow/>
  </div>
  </div>
  </div>
@@ -563,6 +566,7 @@ const LombardPreview = ({ amount, term, onChangeTerm, onBack, onExit, onContinue
  role="tab"
  aria-selected={term === t.months}
  className={"lombard-term" + (term === t.months ? " active" : "")}
+ style={{ fontSize: 14 }}
  onClick={() => onChangeTerm(t.months)}
  >{t.label}</button>
  ))}
@@ -571,35 +575,35 @@ const LombardPreview = ({ amount, term, onChangeTerm, onBack, onExit, onContinue
  <div className="lombard-repay-card">
  <div className="lombard-repay-row primary">
  <div>
- <div className="lombard-repay-label">Monthly with Monument</div>
- <div className="lombard-repay-sub">{LOMBARD_APR.toFixed(2)}% APR</div>
+ <div className="lombard-repay-label" style={{ fontSize: 16, fontWeight: 700 }}>Monthly with Monument</div>
+ <div className="lombard-repay-sub" style={{ fontSize: 16 }}>{LOMBARD_APR.toFixed(2)}% APR</div>
  </div>
- <div className="lombard-repay-amount">{fmtGBP(Math.round(mMonument))}</div>
+ <div className="lombard-repay-amount" style={{ fontSize: 30 }}>{fmtGBP(Math.round(mMonument))}</div>
  </div>
  <div className="lombard-repay-divider"/>
  <div className="lombard-repay-row faded">
  <div>
- <div className="lombard-repay-label">At a high-street bank</div>
- <div className="lombard-repay-sub">{BENCH_APR}% APR · typical personal loan</div>
+ <div className="lombard-repay-label" style={{ fontSize: 16 }}>At a high-street bank</div>
+ <div className="lombard-repay-sub" style={{ fontSize: 14 }}>{BENCH_APR}% APR · typical personal loan</div>
  </div>
  <div className="lombard-repay-amount strike">{fmtGBP(Math.round(mHighStreet))}</div>
  </div>
  </div>
 
  <div className="lombard-savings-card">
- <div className="lombard-savings-eyebrow">YOU SAVE</div>
- <div className="lombard-savings-big">{fmtGBP(Math.round(savings))}</div>
- <div className="lombard-savings-sub">
+ <div className="lombard-savings-eyebrow" style={{ textAlign: "center", fontSize: 15 }}>YOU SAVE</div>
+ <div className="lombard-savings-big" style={{ textAlign: "center" }}>{fmtGBP(Math.round(savings))}</div>
+ <div className="lombard-savings-sub" style={{ textAlign: "center", fontSize: 16 }}>
  Over {Math.floor(months / 12)} {months / 12 === 1 ? "year" : "years"} vs a typical personal loan.
  </div>
  </div>
 
- <div className="lombard-disclosure">
+ <div className="lombard-disclosure" style={{ fontSize: 15, color: "rgb(35,35,35)", padding: 0 }}>
  Variable rate - moves with Bank of England base rate. Interest capitalised monthly.
  </div>
  </div>
  <div className="bg-group">
- <Button label="Continue" variant="primary" onClick={onContinue} showArrow/>
+ <Button label="Review draw down" variant="primary" onClick={onContinue} showArrow/>
  </div>
  </div>
  </div>
@@ -616,22 +620,21 @@ const LombardReview = ({ amount, term, purpose, pledged, onBack, onExit, onConfi
  <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
  <TopBar onBack={onBack} onClose={onExit || onBack} closeLabel="Exit"/>
  <div className="content">
- <div className="pill pill-stone" style={{ marginBottom: 14 }}>Final review</div>
  <h2 className="q-title" style={{ marginBottom: 4 }}>Confirm your drawdown</h2>
  <p className="q-sub" style={{ marginBottom: 24 }}>
- Funds will land in your Easy Access Savings account within 1 working day.
+ Funds will be immediately available in your Easy Access Savings.
  </p>
 
- <dl className="lombard-review">
- <div><dt>Drawdown</dt><dd>{fmtGBP(amount)}</dd></div>
- <div><dt>Purpose</dt><dd>{purposeLabel}</dd></div>
- <div><dt>Repayment term</dt><dd>{Math.floor(term / 12)} {term / 12 === 1 ? "year" : "years"}</dd></div>
- <div><dt>Rate</dt><dd>{LOMBARD_APR.toFixed(2)}% APR (BoE + 1.5%)</dd></div>
- <div><dt>Monthly</dt><dd>{fmtGBP(Math.round(mMonument))}</dd></div>
- <div><dt>Pledged</dt><dd>{pledged.length} {pledged.length === 1 ? "holding" : "holdings"}</dd></div>
+ <dl className="lombard-review" style={{ background: "var(--color-secondary-200, #F5F1E8)", borderRadius: 0, padding: "8px 16px", margin: 0, fontSize: 16, color: "#232323" }}>
+ <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}><dt style={{ fontSize: 16, color: "#232323", fontWeight: 500 }}>Drawdown</dt><dd style={{ margin: 0, fontSize: 16, color: "#232323", fontVariantNumeric: "tabular-nums" }}>{fmtGBP(amount)}</dd></div>
+ <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}><dt style={{ fontSize: 16, color: "#232323", fontWeight: 500 }}>Purpose</dt><dd style={{ margin: 0, fontSize: 16, color: "#232323" }}>{purposeLabel}</dd></div>
+ <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}><dt style={{ fontSize: 16, color: "#232323", fontWeight: 500 }}>Repayment term</dt><dd style={{ margin: 0, fontSize: 16, color: "#232323" }}>{Math.floor(term / 12)} {term / 12 === 1 ? "year" : "years"}</dd></div>
+ <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}><dt style={{ fontSize: 16, color: "#232323", fontWeight: 500 }}>Rate</dt><dd style={{ margin: 0, fontSize: 16, color: "#232323", fontVariantNumeric: "tabular-nums" }}>{LOMBARD_APR.toFixed(2)}% APR (BoE + 1.5%)</dd></div>
+ <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}><dt style={{ fontSize: 16, color: "#232323", fontWeight: 500 }}>Monthly</dt><dd style={{ margin: 0, fontSize: 16, color: "#232323", fontVariantNumeric: "tabular-nums" }}>{fmtGBP(Math.round(mMonument))}</dd></div>
+ <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0" }}><dt style={{ fontSize: 16, color: "#232323", fontWeight: 500 }}>Pledged</dt><dd style={{ margin: 0, fontSize: 16, color: "#232323" }}>{pledged.length} {pledged.length === 1 ? "holding" : "holdings"}</dd></div>
  </dl>
 
- <div className="lombard-disclosure">
+ <div className="lombard-disclosure" style={{ background: "transparent", borderRadius: 0, padding: "14px 0px", marginTop: 0, fontSize: 16, color: "#232323", lineHeight: 1.45 }}>
  By confirming, you agree to the variable-rate terms and acknowledge the risks of secured borrowing.
  </div>
  </div>
@@ -644,29 +647,68 @@ const LombardReview = ({ amount, term, purpose, pledged, onBack, onExit, onConfi
 };
 
 // ---------------- 10. SUCCESS ----------------
-const LombardSuccess = ({ amount, onHome }) => (
+const LombardSuccess = ({ amount, term, purpose, onBack, onHome }) => {
+ const ref = React.useMemo(() => "MN-" + Math.floor(100000 + Math.random() * 900000), []);
+ const purposeLabel = LOMBARD_PURPOSES.find(p => p.id === purpose)?.title || "Drawdown";
+ const termLabel = term ? `${Math.floor(term / 12)} ${term / 12 === 1 ? "year" : "years"}` : "—";
+
+ return (
  <div className="screen" data-screen-label="L10 Success">
- <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column", background: "var(--color-secondary-200)" }}>
- <div className="content" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", paddingTop: 40 }}>
- <div className="lombard-success-mark">
- <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
- <circle cx="28" cy="28" r="27" stroke="#003036" strokeWidth="1.5"/>
- <path d="M17 29l8 8 15-18" stroke="#003036" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
- </svg>
+ <div className="phone-body flow-screen" style={{ display: "flex", flexDirection: "column" }}>
+ <TopBar onBack={onBack}/>
+
+ <div className="content" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: 40, textAlign: "center", alignItems: "center" }}>
+ <div style={{ width: "100%" }}>
+ <div
+ style={{ margin: "0 auto 12px", display: "flex", alignItems: "center", justifyContent: "center" }}
+ aria-hidden="true"
+ >
+ <ConfettiTickLottie size={220}/>
  </div>
- <div className="lombard-success-eyebrow">DRAWDOWN CONFIRMED</div>
- <h1 className="lombard-success-title">{fmtGBP(amount)}<br/>on its way.</h1>
- <p className="lombard-success-sub">
- Funds will land in your Easy Access Savings account within 1 working day.
- Your first repayment is due next month, and you can draw again from your credit line anytime.
+
+ <h2 className="q-title" style={{ textAlign: "center", margin: "24px 0", fontSize: 42, lineHeight: 1.2 }}>Your drawdown is complete</h2>
+ <p className="q-sub" style={{ marginBottom: 24, textAlign: "center" }}>
+ <b style={{ color: "var(--fg-1)" }}>{fmtGBP(amount)}</b> is immediately available in your <b style={{ color: "var(--fg-1)" }}>Easy Access Savings</b>. Your first repayment is due next month, and you can draw again from your credit line anytime.
  </p>
+
+ <div
+ style={{
+ background: "var(--color-secondary-200, #F5F1E8)",
+ border: "1px solid rgba(0, 48, 54, 0.08)",
+ padding: "4px 16px",
+ }}
+ >
+ {[
+ ["Drawdown", fmtGBP(amount)],
+ ["Purpose", purposeLabel],
+ ["Repayment term", termLabel],
+ ["Rate", `${LOMBARD_APR.toFixed(2)}% APR`],
+ ["Landed in", "Easy Access Savings"],
+ ["Reference", ref],
+ ].map(([k, v], i, arr) => (
+ <div
+ key={k}
+ style={{
+ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12,
+ padding: "12px 0",
+ borderBottom: i < arr.length - 1 ? "1px solid rgba(0, 48, 54, 0.08)" : "none",
+ }}
+ >
+ <span style={{ font: "400 14px/20px var(--font-body)", color: "var(--fg-2)" }}>{k}</span>
+ <span style={{ font: "500 14px/20px var(--font-body)", color: "var(--fg-1)", textAlign: "right" }}>{v}</span>
  </div>
+ ))}
+ </div>
+ </div>
+ </div>
+
  <div className="bg-group">
- <Button label="Back to home" variant="primary" onClick={onHome} showArrow/>
+ <Button label="Back to home" variant="primary" onClick={onHome}/>
  </div>
  </div>
  </div>
-);
+ );
+};
 
 // ---------------- EXPORTS ----------------
 Object.assign(window, {
