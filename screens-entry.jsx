@@ -33,7 +33,7 @@ const HomeScreen = ({ onOpenInvestments, onOpenHolding, onOpenBorrow, holdings =
  return (
  <div className="screen screen-home" data-screen-label="01 Home">
  {splash && (
- <div className="home-splash">
+ <div className="home-splash" style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "absolute", inset: 0 }}>
  <div className="home-splash-text">Good afternoon, Wasim</div>
  </div>
  )}
@@ -351,7 +351,7 @@ const LANDING_SLIDES = [
  eyebrow: null,
  title: "Manage everything in one place",
  body: "One fee, no transaction fees or trading fees.",
- image: "assets/landing-3.png",
+ image: "assets/landing-4.png",
  },
 ];
 

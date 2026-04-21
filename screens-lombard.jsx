@@ -121,13 +121,13 @@ const IllusTaxEfficient = () => (
 const LOMBARD_SLIDES_EDITORIAL = [
  { title: "Keep your investments growing while you borrow",
  body: "Your portfolio stays invested and compounds. Use it as collateral instead of selling.",
- Illus: IllusKeepGrowing },
+ image: "assets/lombard-1.png" },
  { title: "Cheaper than a high-street loan",
  body: "Bank of England base rate plus a 1.5% margin. No hidden fees, no early repayment penalties.",
- Illus: IllusRateCompare },
+ image: "assets/lombard-2.png" },
  { title: "Avoid selling and triggering tax",
  body: "Pledging assets means no capital gains event. Keep your allowance, keep your position.",
- Illus: IllusTaxEfficient },
+ image: "assets/lombard-3.png" },
 ];
 
 const LOMBARD_SLIDES_TYPE = [
@@ -198,7 +198,9 @@ const LombardCarousel = ({ variant = "editorial", onBack, onContinue }) => {
  </div>
  ) : (
  <div className="carousel-slide" key={i}>
- <div className="carousel-illus"><sl.Illus/></div>
+ <div className={"carousel-illus" + (sl.image ? " carousel-illus-img" : "")}>
+ {sl.image ? <img src={sl.image} alt="" draggable={false}/> : <sl.Illus/>}
+ </div>
  <div className="carousel-copy">
  <div className="title">{sl.title}</div>
  <div className="lede">{sl.body}</div>
@@ -244,7 +246,7 @@ const LombardCapacity = ({ eligibleAssets = [], onBack, onExit, onContinue }) =>
  <h3 className="lombard-capacity-section-title" style={{ color: "var(--fg-1)" }}>Eligible assets</h3>
  <div className="lombard-capacity-section-count" style={{ color: "var(--fg-1)" }}>{eligibleAssets.length} account{eligibleAssets.length === 1 ? "" : "s"}</div>
  </div>
- <div className="lombard-capacity-list" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+ <div className="lombard-capacity-list" style={{ display: "flex", flexDirection: "column", gap: 0 }}>
  {eligibleAssets.map(a => (
  <div className="lombard-capacity-row" key={a.id} style={{ background: "var(--color-secondary-200)", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
  <div className="lombard-capacity-row-main" style={{ flex: 1, minWidth: 0 }}>
@@ -460,7 +462,7 @@ const LombardApproved = ({ eligibleAssets = [], pledged, onContinue }) => {
  </div>
  </div>
  <div className="bg-group">
- <Button label="Draw down now" variant="primary" onClick={onContinue} showArrow/>
+ <Button label="Drawdown now" variant="primary" onClick={onContinue} showArrow/>
  </div>
  </div>
  </div>
@@ -602,7 +604,7 @@ const LombardPreview = ({ amount, term, onChangeTerm, onBack, onExit, onContinue
  </div>
  </div>
  <div className="bg-group">
- <Button label="Review draw down" variant="primary" onClick={onContinue} showArrow/>
+ <Button label="Review drawdown" variant="primary" onClick={onContinue} showArrow/>
  </div>
  </div>
  </div>

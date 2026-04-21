@@ -928,7 +928,7 @@ const ConfirmScreen = ({ onBack, onHome, fundName, amount, frequency = "one-off"
  <ConfettiTickLottie size={220}/>
  </div>
 
- <h2 className="q-title" style={{ textAlign: "center", margin: "24px 0", fontSize: 42, lineHeight: 1.2 }}>Your order has been placed</h2>
+ <h2 className="q-title" style={{ textAlign: "center", margin: "24px 0", fontSize: 30, lineHeight: 1.2 }}>Your order has been placed</h2>
  <p className="q-sub" style={{ marginBottom: 24, textAlign: "center" }}>
  {frequency === "monthly"
  ? <>We're setting up your monthly investment of <b style={{ color: "var(--fg-1)" }}>{fmtGBP(amount)}</b> into <b style={{ color: "var(--fg-1)" }}>{fundName}</b>. The first contribution typically settles within two business days.</>
