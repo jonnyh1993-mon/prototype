@@ -65,7 +65,8 @@ html[data-mobile] .phone-statusbar {
 
 /* Hide the Tweaks panel & toggle on mobile — desktop-only tool */
 html[data-mobile] .tweaks-panel,
-html[data-mobile] .tweaks-toggle {
+html[data-mobile] .tweaks-toggle,
+html[data-mobile] .kb-hint {
   display: none !important;
 }
 
