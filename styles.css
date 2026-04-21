@@ -229,7 +229,7 @@ html, body {
 .bg-group {
  padding: 16px 16px 28px;
  display: flex; flex-direction: column; gap: 10px;
- background: linear-gradient(to top, var(--canvas-primary) 70%, rgba(245,246,244,0));
+ background: linear-gradient(to top, var(--color-secondary-200) 70%, rgba(245,241,232,0));
  flex-shrink: 0;
 }
 .bg-group.on-dark { background: linear-gradient(to top, var(--surface-hero) 70%, rgba(0,64,72,0)); }
@@ -1483,7 +1483,7 @@ html, body {
 }
 .felicia-foot {
  border-top: 1px solid rgba(0,64,72,.08);
- background: var(--surface-canvas, #FDFAF5);
+ background: var(--color-secondary-200, #F3ECDD);
  padding: 16px 28px 24px;
  flex-shrink: 0;
 }
